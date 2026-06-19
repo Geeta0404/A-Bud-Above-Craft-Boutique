@@ -5,13 +5,13 @@ import { IMG } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Our Story",
-  description: "From a single farmers market table to a national platform for Canadian artisans — this is our story.",
+  description: "From a single farmers market table to a national platform for independent artisans — this is our story.",
 };
 
 const milestones = [
   { year: "2019", text: "Founded as a single table at the Halifax Seaport Farmers' Market, selling hand-poured candles." },
   { year: "2021", text: "Partnered with our first five artisan studios and launched our online boutique." },
-  { year: "2023", text: "Grew to over 30 Canadian makers and shipped to every province and territory." },
+  { year: "2023", text: "Grew to over 30 independent makers and shipped to every province and territory." },
   { year: "2025", text: "Opened our first in-person workshop space, hosting hands-on classes with our artisans." },
 ];
 
@@ -22,7 +22,7 @@ export default function OurStoryPage() {
       <h1 className="font-heading text-3xl font-semibold sm:text-4xl">Our Story</h1>
       <p className="mt-4 text-muted-foreground">
         A Bud Above began with a simple idea: handmade things carry more warmth than anything mass-produced ever
-        could. What started as a single candle stand has grown into a curated home for dozens of Canadian
+        could. What started as a single candle stand has grown into a curated home for dozens of independent
         artisans — but our mission hasn&rsquo;t changed.
       </p>
 

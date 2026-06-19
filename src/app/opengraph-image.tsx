@@ -24,7 +24,7 @@ export default function OGImage() {
             width: 96,
             height: 96,
             borderRadius: "50%",
-            background: "#C97B4A",
+            background: "#3A4632",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -37,7 +37,7 @@ export default function OGImage() {
         </div>
         <div style={{ fontSize: 56, fontWeight: 700 }}>{SITE_NAME}</div>
         <div style={{ fontSize: 28, marginTop: 16, color: "#7A6A57" }}>
-          Handcrafted Goods, Canadian Made
+          Handcrafted Goods, Thoughtfully Made
         </div>
       </div>
     ),

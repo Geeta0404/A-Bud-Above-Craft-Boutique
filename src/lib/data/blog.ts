@@ -51,9 +51,9 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "gifting-guide-for-the-holidays",
     title: "A Handmade Gifting Guide for the Holidays",
-    excerpt: "Thoughtful, Canadian-made gift ideas for everyone on your list this season.",
+    excerpt: "Thoughtful, handmade gift ideas for everyone on your list this season.",
     content: [
-      "Skip the mass-produced gift aisle this year — every piece in this guide is made by a small Canadian studio or workshop.",
+      "Skip the mass-produced gift aisle this year — every piece in this guide is made by a small independent studio or workshop.",
       "For the home cook: our carved maple spoon set or live-edge walnut board.",
       "For the cozy homebody: a chunky knit throw or our balsam fir candle.",
       "For the person who has everything: a curated artisan gift box, packed and ribboned by hand.",

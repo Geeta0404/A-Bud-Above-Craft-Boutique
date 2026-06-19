@@ -12,7 +12,7 @@ export function CallToAction() {
           From cozy candle nights to gifts that actually mean something — discover artisan pieces made for the
           way you live.
         </p>
-        <Button size="lg" variant="secondary" asChild className="mt-2">
+        <Button size="lg" variant="warm" asChild className="mt-2">
           <Link href="/shop">Shop Now</Link>
         </Button>
       </Reveal>

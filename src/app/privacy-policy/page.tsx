@@ -46,8 +46,8 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2 className="font-heading text-xl font-semibold">5. Your Rights</h2>
           <p className="mt-2 text-muted-foreground">
-            Under Canadian privacy law (PIPEDA), you have the right to access, correct, or request deletion of
-            your personal information. Contact us at privacy@abudabovecraftboutique.ca to make a request.
+            Under applicable privacy law, you have the right to access, correct, or request deletion of your
+            personal information. Contact us at privacy@abudabovecraftboutique.ca to make a request.
           </p>
         </section>
         <section>

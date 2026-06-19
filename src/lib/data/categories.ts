@@ -5,7 +5,7 @@ export const categories: Category[] = [
   {
     slug: "candles",
     name: "Candles & Fragrance",
-    description: "Hand-poured soy candles infused with Canadian botanicals.",
+    description: "Hand-poured soy candles infused with natural botanicals.",
     image: IMG.candleJar,
   },
   {
@@ -17,7 +17,7 @@ export const categories: Category[] = [
   {
     slug: "woodwork",
     name: "Woodwork",
-    description: "Live-edge and joinery pieces from reclaimed Canadian timber.",
+    description: "Live-edge and joinery pieces from reclaimed timber.",
     image: IMG.woodworkers,
   },
   {
@@ -41,7 +41,7 @@ export const categories: Category[] = [
   {
     slug: "seasonal",
     name: "Seasonal Collection",
-    description: "Limited-run pieces inspired by the Canadian seasons.",
+    description: "Limited-run pieces inspired by the changing seasons.",
     image: IMG.wreath,
   },
 ];

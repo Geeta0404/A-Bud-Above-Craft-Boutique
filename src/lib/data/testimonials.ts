@@ -23,7 +23,7 @@ export const testimonials: Testimonial[] = [
     location: "Montréal, QC",
     rating: 5,
     quote:
-      "Fast shipping across Canada and the candles smell incredible. I've already reordered my favourite twice.",
+      "Fast shipping and the candles smell incredible. I've already reordered my favourite twice.",
   },
   {
     id: "t4",

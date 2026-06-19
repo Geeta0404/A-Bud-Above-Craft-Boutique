@@ -7,9 +7,9 @@ export function Testimonials() {
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <Reveal>
         <div className="mb-12 text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Loved Across Canada</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Happy Customers</p>
           <h2 className="mt-2 font-heading text-3xl font-medium italic sm:text-4xl">What Our Customers Say</h2>
-          <p className="mt-2 text-muted-foreground">Real reviews from artisan-loving customers across Canada.</p>
+          <p className="mt-2 text-muted-foreground">Real reviews from artisan-loving customers everywhere.</p>
         </div>
       </Reveal>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

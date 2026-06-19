@@ -10,11 +10,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-[0_1px_2px_oklch(0.25_0.02_50_/_0.1),0_8px_20px_-8px_oklch(0.58_0.12_45_/_0.45)] hover:shadow-[0_2px_4px_oklch(0.25_0.02_50_/_0.12),0_14px_28px_-10px_oklch(0.58_0.12_45_/_0.55)] hover:-translate-y-0.5 hover:bg-primary/90",
+          "bg-primary text-primary-foreground shadow-[0_1px_2px_oklch(0.25_0.02_50_/_0.1),0_8px_20px_-8px_oklch(0.33_0.045_140_/_0.55)] hover:shadow-[0_2px_4px_oklch(0.25_0.02_50_/_0.12),0_14px_28px_-10px_oklch(0.33_0.045_140_/_0.65)] hover:-translate-y-0.5 hover:bg-primary/90",
+        warm:
+          "bg-warm text-warm-foreground shadow-[0_1px_2px_oklch(0.25_0.02_50_/_0.1),0_8px_20px_-8px_oklch(0.58_0.12_45_/_0.5)] hover:shadow-[0_2px_4px_oklch(0.25_0.02_50_/_0.12),0_14px_28px_-10px_oklch(0.58_0.12_45_/_0.6)] hover:-translate-y-0.5 hover:bg-warm/90",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground hover:-translate-y-0.5 hover:shadow-md aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-secondary text-secondary-foreground shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:bg-[color-mix(in_oklch,var(--secondary),var(--background)_15%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         destructive:

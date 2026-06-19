@@ -38,7 +38,7 @@ export default function ContactPage() {
             <MapPin className="mt-0.5 h-4 w-4 text-primary" />
             <div>
               <p className="text-sm font-medium">Studio</p>
-              <p className="text-sm text-muted-foreground">123 Seaport Lane, Halifax, NS, Canada</p>
+              <p className="text-sm text-muted-foreground">123 Seaport Lane, Halifax, NS</p>
             </div>
           </div>
         </div>

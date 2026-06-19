@@ -3,15 +3,15 @@ import type { FaqItem } from "@/lib/types";
 export const faqs: FaqItem[] = [
   {
     category: "Orders & Shipping",
-    question: "How long does shipping take within Canada?",
+    question: "How long does shipping take?",
     answer:
-      "Most orders ship within 2–3 business days and arrive within 4–8 business days depending on your province. Tracking is emailed as soon as your order ships.",
+      "Most orders ship within 2–3 business days and arrive within 4–8 business days depending on your location. Tracking is emailed as soon as your order ships.",
   },
   {
     category: "Orders & Shipping",
-    question: "Do you ship to the United States?",
+    question: "Do you ship internationally?",
     answer:
-      "Currently we ship within Canada only. We're working on expanding to the U.S. — join our newsletter to be notified when that launches.",
+      "We currently ship within our home region only. We're working on expanding internationally — join our newsletter to be notified when that launches.",
   },
   {
     category: "Orders & Shipping",
@@ -34,7 +34,7 @@ export const faqs: FaqItem[] = [
     category: "Products",
     question: "Are your products really handmade?",
     answer:
-      "Yes — every product is made by an independent Canadian artisan or small studio. Because of this, slight variations in colour and texture are part of the charm.",
+      "Yes — every product is made by an independent artisan or small studio. Because of this, slight variations in colour and texture are part of the charm.",
   },
   {
     category: "Products",

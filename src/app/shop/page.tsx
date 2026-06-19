@@ -4,7 +4,7 @@ import { ShopClient } from "@/components/shop/ShopClient";
 
 export const metadata: Metadata = {
   title: "Shop All Handcrafted Goods",
-  description: "Browse candles, pottery, woodwork, textile art, home décor, and gifts handmade by Canadian artisans.",
+  description: "Browse candles, pottery, woodwork, textile art, home décor, and gifts handmade by independent artisans.",
 };
 
 export default function ShopPage() {

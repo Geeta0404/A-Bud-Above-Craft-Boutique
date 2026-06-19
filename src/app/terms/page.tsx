@@ -25,7 +25,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-heading text-xl font-semibold">2. Products & Pricing</h2>
           <p className="mt-2 text-muted-foreground">
-            All prices are listed in Canadian dollars (CAD) and are subject to change without notice. Because
+            All prices are listed in CAD and are subject to change without notice. Because
             every item is handmade, slight variations in colour, texture, and size should be expected.
           </p>
         </section>
@@ -60,8 +60,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-heading text-xl font-semibold">7. Governing Law</h2>
           <p className="mt-2 text-muted-foreground">
-            These terms are governed by the laws of the Province of Nova Scotia and the laws of Canada applicable
-            therein.
+            These terms are governed by the laws of the jurisdiction in which the Company operates.
           </p>
         </section>
       </div>

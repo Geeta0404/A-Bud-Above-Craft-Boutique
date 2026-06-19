@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Workshops & Events",
-  description: "Join hands-on craft workshops led by our artisan partners across Canada.",
+  description: "Join hands-on craft workshops led by our artisan partners.",
 };
 
 export default function WorkshopsPage() {

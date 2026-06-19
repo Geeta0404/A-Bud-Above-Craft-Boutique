@@ -5,12 +5,12 @@ import { IMG } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn about A Bud Above Craft Boutique and the Canadian artisans behind every handcrafted piece.",
+  description: "Learn about A Bud Above Craft Boutique and the independent artisans behind every handcrafted piece.",
 };
 
 const values = [
   { title: "Handmade, Always", body: "Every product is made by hand by an independent artisan or small studio — never mass produced." },
-  { title: "Canadian Made", body: "We partner exclusively with makers based in Canada, supporting local craft economies coast to coast." },
+  { title: "Independently Made", body: "We partner exclusively with small studios and independent makers, supporting local craft economies." },
   { title: "Slow & Sustainable", body: "We favour natural materials, small batches, and packaging that's kind to the planet." },
 ];
 
@@ -20,8 +20,8 @@ export default function AboutPage() {
       <PageBreadcrumbs items={[{ label: "About Us" }]} />
       <h1 className="font-heading text-3xl font-semibold sm:text-4xl">About A Bud Above</h1>
       <p className="mt-4 max-w-2xl text-muted-foreground">
-        We started A Bud Above Craft Boutique to give Canadian artisans a beautiful home online — a place where
-        handmade candles, pottery, woodwork, and textile art could find their way into homes across the country.
+        We started A Bud Above Craft Boutique to give independent artisans a beautiful home online — a place
+        where handmade candles, pottery, woodwork, and textile art could find their way into more homes.
       </p>
 
       <div className="relative mt-8 aspect-[16/7] overflow-hidden rounded-2xl">

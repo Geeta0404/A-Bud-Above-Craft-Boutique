@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { products } from "@/lib/data/products";
 import { ProductGrid } from "@/components/shop/ProductGrid";
+import { CategoryStrip } from "@/components/shop/CategoryStrip";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
 import { SortDropdown, type SortOption } from "@/components/shop/SortDropdown";
 import { Input } from "@/components/ui/input";
@@ -78,6 +79,10 @@ export function ShopClient({ initialCategory }: { initialCategory?: string }) {
       <div className="mb-8">
         <h1 className="font-heading text-3xl font-semibold">Shop All</h1>
         <p className="mt-2 text-muted-foreground">{filtered.length} handcrafted pieces</p>
+      </div>
+
+      <div className="mb-8">
+        <CategoryStrip selected={selectedCategories} onToggle={toggleCategory} />
       </div>
 
       <div className="mb-6 flex flex-wrap items-center gap-3">

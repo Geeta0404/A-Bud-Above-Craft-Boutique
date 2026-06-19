@@ -8,7 +8,7 @@ export const checkoutSchema = z.object({
   province: z.string().min(2, "Please select your province"),
   postalCode: z
     .string()
-    .regex(/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/, "Enter a valid Canadian postal code"),
+    .regex(/^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/, "Enter a valid postal code"),
   cardName: z.string().min(2, "Please enter the name on card"),
   cardNumber: z
     .string()
