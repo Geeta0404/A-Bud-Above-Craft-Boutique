@@ -23,15 +23,17 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <div className="hover-lift group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
-      <Link href={`/shop/${product.slug}`} className="relative block aspect-square overflow-hidden bg-muted">
-        <Image
-          src={product.images[0]}
-          alt={product.name}
-          fill
-          sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-        />
-        <div className="absolute left-3 top-3 flex flex-col gap-1.5">
+      <div className="relative aspect-square overflow-hidden bg-muted">
+        <Link href={`/shop/${product.slug}`} className="absolute inset-0 z-0 block">
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            fill
+            sizes="(min-width: 1024px) 25vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          />
+        </Link>
+        <div className="pointer-events-none absolute left-3 top-3 flex flex-col gap-1.5">
           {product.isBestSeller && (
             <Badge className="bg-primary text-primary-foreground shadow-sm">Best Seller</Badge>
           )}
@@ -47,19 +49,16 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <div className="absolute inset-x-3 bottom-3 flex translate-y-2 justify-center opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="absolute inset-x-3 bottom-3 z-10 flex translate-y-2 justify-center opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
           <button
             type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              setQuickViewOpen(true);
-            }}
+            onClick={() => setQuickViewOpen(true)}
             className="flex items-center gap-1.5 rounded-full bg-background/95 px-4 py-2 text-xs font-medium shadow-md transition-colors hover:bg-background"
           >
             <Eye className="h-3.5 w-3.5" /> Quick View
           </button>
         </div>
-      </Link>
+      </div>
       <button
         type="button"
         onClick={() => {
