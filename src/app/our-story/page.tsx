@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
+import { IMG } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Our Story",
@@ -27,7 +28,7 @@ export default function OurStoryPage() {
 
       <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
         <Image
-          src="https://images.unsplash.com/photo-1576697010702-f86ad0a4f9e3?q=80&w=1600&auto=format&fit=crop"
+          src={IMG.wreath}
           alt="Seasonal handmade goods on display"
           fill
           sizes="100vw"

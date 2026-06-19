@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { IMG } from "@/lib/images";
 
 export function Hero() {
   return (
@@ -29,7 +30,7 @@ export function Hero() {
         <div className="order-1 grid grid-cols-2 gap-4 lg:order-2">
           <div className="relative col-span-2 aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
-              src="https://images.unsplash.com/photo-1565193298357-c7b9b2e2ad4d?q=80&w=1200&auto=format&fit=crop"
+              src={IMG.potteryBowls}
               alt="Handmade stoneware pottery on a wooden table"
               fill
               priority
@@ -39,7 +40,7 @@ export function Hero() {
           </div>
           <div className="relative aspect-square overflow-hidden rounded-2xl">
             <Image
-              src="https://images.unsplash.com/photo-1602874801007-bd36c0cfcfae?q=80&w=800&auto=format&fit=crop"
+              src={IMG.candleJar}
               alt="Hand-poured soy candle"
               fill
               sizes="25vw"
@@ -48,7 +49,7 @@ export function Hero() {
           </div>
           <div className="relative aspect-square overflow-hidden rounded-2xl">
             <Image
-              src="https://images.unsplash.com/photo-1601058268499-e52e8b850b97?q=80&w=800&auto=format&fit=crop"
+              src={IMG.woodworkers}
               alt="Live-edge wooden charcuterie board"
               fill
               sizes="25vw"

@@ -1,4 +1,5 @@
 import type { Product, Review } from "@/lib/types";
+import { IMG } from "@/lib/images";
 
 function reviews(seed: string, count: number): Review[] {
   const authors = ["Sarah M.", "James T.", "Priya K.", "Chloe D.", "Mark R.", "Emily W."];
@@ -22,10 +23,7 @@ export const products: Product[] = [
     description: "Hand-poured soy candle with notes of amber, cedar, and clove.",
     longDescription:
       "Poured in small batches in Nova Scotia using 100% Canadian soy wax, a cotton wick, and phthalate-free fragrance oils. 45-hour burn time in a reusable matte ceramic vessel.",
-    images: [
-      "https://images.unsplash.com/photo-1602874801007-bd36c0cfcfae?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.candleJar, IMG.candleChristmas],
     artisan: "Maple & Ember Co.",
     rating: 4.8,
     reviewCount: 6,
@@ -44,9 +42,7 @@ export const products: Product[] = [
     description: "A crisp forest-walk scent of balsam fir and frosted pine.",
     longDescription:
       "Inspired by winter mornings in the boreal forest, this candle blends balsam fir, pine, and a touch of vanilla. Hand-poured in a frosted glass jar.",
-    images: [
-      "https://images.unsplash.com/photo-1608181831718-c9ffd8829358?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.wreath, IMG.candleJar],
     artisan: "Maple & Ember Co.",
     rating: 4.7,
     reviewCount: 4,
@@ -66,10 +62,7 @@ export const products: Product[] = [
     description: "Wheel-thrown stoneware bowls in a warm speckled glaze.",
     longDescription:
       "Each bowl is individually thrown on the wheel and finished with a food-safe reactive glaze, so no two pieces are exactly alike. Dishwasher and microwave safe.",
-    images: [
-      "https://images.unsplash.com/photo-1565193298357-c7b9b2e2ad4d?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.potteryBowls, IMG.ceramicCups],
     artisan: "Riverstone Ceramics",
     rating: 4.9,
     reviewCount: 8,
@@ -88,9 +81,7 @@ export const products: Product[] = [
     description: "An earthy terracotta vase with a soft matte finish.",
     longDescription:
       "Thrown on a kick-wheel and left unglazed on the exterior to highlight the natural terracotta texture, with a sealed interior for fresh or dried florals.",
-    images: [
-      "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.vaseFlower, IMG.potteryStack],
     artisan: "Riverstone Ceramics",
     rating: 4.6,
     reviewCount: 5,
@@ -108,10 +99,7 @@ export const products: Product[] = [
     description: "A statement serving board with natural live-edge detail.",
     longDescription:
       "Milled from reclaimed black walnut and finished with food-grade mineral oil. Each board retains the natural bark-edge silhouette of the tree.",
-    images: [
-      "https://images.unsplash.com/photo-1601058268499-e52e8b850b97?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.woodenSpoons, IMG.woodworkers],
     artisan: "Northbound Woodshop",
     rating: 4.9,
     reviewCount: 11,
@@ -130,9 +118,7 @@ export const products: Product[] = [
     description: "Three hand-carved cooking spoons in solid maple.",
     longDescription:
       "Each spoon is roughed out with an axe and finished entirely by hand with carving knives — no two are identical. Food-safe beeswax finish.",
-    images: [
-      "https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.woodenSpoons, IMG.woodenBox],
     artisan: "Northbound Woodshop",
     rating: 4.8,
     reviewCount: 7,
@@ -151,9 +137,7 @@ export const products: Product[] = [
     description: "A textured wall weaving in undyed natural fibers.",
     longDescription:
       "Hand-woven on a floor loom using undyed wool and cotton roving, finished with a hand-carved driftwood dowel.",
-    images: [
-      "https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.macrame, IMG.chunkyKnit],
     artisan: "Thistle & Loom",
     rating: 4.7,
     reviewCount: 5,
@@ -171,9 +155,7 @@ export const products: Product[] = [
     description: "An oversized hand-knit throw in merino wool.",
     longDescription:
       "Knit by hand using a giant-stitch technique with ethically sourced Canadian merino wool. Generously sized for a sofa or end of bed.",
-    images: [
-      "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.chunkyKnit, IMG.mittens],
     artisan: "Thistle & Loom",
     rating: 4.9,
     reviewCount: 9,
@@ -191,9 +173,7 @@ export const products: Product[] = [
     price: 24,
     description: "A classic macramé hanger in natural cotton cord.",
     longDescription: "Hand-knotted with 100% cotton cord, sized to fit pots from 6 to 10 inches.",
-    images: [
-      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.macrame],
     artisan: "Thistle & Loom",
     rating: 4.5,
     reviewCount: 3,
@@ -211,9 +191,7 @@ export const products: Product[] = [
     description: "Real pressed wildflowers framed in a minimalist float frame.",
     longDescription:
       "Foraged and pressed from Ontario meadows, then hand-arranged and sealed in a UV-protective float frame.",
-    images: [
-      "https://images.unsplash.com/photo-1616627561839-074385245ff6?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.pressedFlower],
     artisan: "Wildflower Studio",
     rating: 4.6,
     reviewCount: 4,
@@ -230,9 +208,7 @@ export const products: Product[] = [
     price: 26,
     description: "A minimalist concrete tray for keys, rings, and trinkets.",
     longDescription: "Cast and hand-finished in small batches with a smooth sealed surface and cork base.",
-    images: [
-      "https://images.unsplash.com/photo-1582582494705-f8ce0b0c24f0?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.woodenBox],
     artisan: "Wildflower Studio",
     rating: 4.4,
     reviewCount: 3,
@@ -249,9 +225,7 @@ export const products: Product[] = [
     price: 34,
     description: "European flax linen pillow cover with hidden zip closure.",
     longDescription: "Stonewashed for softness and durability, sewn in small batches with reinforced seams.",
-    images: [
-      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.linenPillow],
     artisan: "Wildflower Studio",
     rating: 4.7,
     reviewCount: 6,
@@ -269,9 +243,7 @@ export const products: Product[] = [
     description: "A curated box with candle, ceramic mug, and botanical print.",
     longDescription:
       "A thoughtfully assembled gift set featuring three best-selling artisan pieces, packaged in a reusable kraft gift box with ribbon.",
-    images: [
-      "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.giftBox],
     artisan: "A Bud Above Curated",
     rating: 4.9,
     reviewCount: 10,
@@ -289,9 +261,7 @@ export const products: Product[] = [
     price: 28,
     description: "A cozy, generously-sized handmade mug.",
     longDescription: "Wheel-thrown with a comfortable thumb-rest handle and finished in a speckled satin glaze.",
-    images: [
-      "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.ceramicCups, IMG.potteryBowls],
     artisan: "Riverstone Ceramics",
     rating: 4.8,
     reviewCount: 12,
@@ -309,9 +279,7 @@ export const products: Product[] = [
     price: 30,
     description: "Clove, orange peel, and cinnamon bark for the holidays.",
     longDescription: "A festive seasonal blend hand-poured in small batches, available while stocks last.",
-    images: [
-      "https://images.unsplash.com/photo-1607013407627-6ea643d4b1f4?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.candleChristmas, IMG.wreath],
     artisan: "Maple & Ember Co.",
     rating: 4.7,
     reviewCount: 5,
@@ -330,9 +298,7 @@ export const products: Product[] = [
     description: "A finger-jointed oak box lined with cedar.",
     longDescription:
       "Hand-cut finger joints, a felt-lined tray, and a cedar base that naturally helps protect jewelry from tarnish.",
-    images: [
-      "https://images.unsplash.com/photo-1611464868687-3c8b73d5bb8f?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.woodenBox, IMG.woodworkers],
     artisan: "Northbound Woodshop",
     rating: 4.9,
     reviewCount: 6,
@@ -350,9 +316,7 @@ export const products: Product[] = [
     price: 48,
     description: "Three petite porcelain vases for single stems.",
     longDescription: "Cast in fine porcelain slip and finished with a glossy celadon glaze, sold as a set of three.",
-    images: [
-      "https://images.unsplash.com/photo-1455659817273-f96807779a8a?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.vaseFlower, IMG.ceramicCups],
     artisan: "Riverstone Ceramics",
     rating: 4.6,
     reviewCount: 4,
@@ -370,9 +334,7 @@ export const products: Product[] = [
     price: 46,
     description: "A handwoven cotton table runner in earthy stripes.",
     longDescription: "Woven on a four-shaft loom using naturally dyed cotton yarns sourced in Quebec.",
-    images: [
-      "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.linenPillow, IMG.macrame],
     artisan: "Thistle & Loom",
     rating: 4.5,
     reviewCount: 3,
@@ -389,9 +351,7 @@ export const products: Product[] = [
     price: 65,
     description: "A hand-tied balsam wreath with pinecones and red berries.",
     longDescription: "Freshly cut and hand-tied each fall by our partner farm in the Eastern Townships.",
-    images: [
-      "https://images.unsplash.com/photo-1576697010702-f86ad0a4f9e3?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.wreath],
     artisan: "Eastern Townships Farm Co.",
     rating: 4.8,
     reviewCount: 7,
@@ -409,9 +369,7 @@ export const products: Product[] = [
     price: 40,
     description: "Three grades of pure Canadian maple syrup in glass bottles.",
     longDescription: "Tapped and bottled by a third-generation sugar bush in Quebec, presented in a wooden crate.",
-    images: [
-      "https://images.unsplash.com/photo-1589985270958-bf087b2d8ed7?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.mapleSyrup],
     artisan: "Sugarwood Farms",
     rating: 4.9,
     reviewCount: 8,
@@ -429,9 +387,7 @@ export const products: Product[] = [
     price: 38,
     description: "Cozy double-layer mittens knit from Canadian wool.",
     longDescription: "Knit using a traditional double-layer technique for extra warmth, lined with soft fleece.",
-    images: [
-      "https://images.unsplash.com/photo-1542295669297-4d352b042bca?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.mittens],
     artisan: "Thistle & Loom",
     rating: 4.7,
     reviewCount: 6,
@@ -449,9 +405,7 @@ export const products: Product[] = [
     price: 32,
     description: "Six hand-carved basswood ornaments with twine hangers.",
     longDescription: "Each ornament is hand-carved and sanded smooth, finished with a clear protective coat.",
-    images: [
-      "https://images.unsplash.com/photo-1607344645866-009c320b63e0?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.woodenBox, IMG.woodworkers],
     artisan: "Northbound Woodshop",
     rating: 4.6,
     reviewCount: 5,
@@ -469,9 +423,7 @@ export const products: Product[] = [
     price: 22,
     description: "Three bars of cold-process soap with lavender and oats.",
     longDescription: "Cold-processed in small batches with goat's milk, oats, and dried lavender buds.",
-    images: [
-      "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=1200&auto=format&fit=crop",
-    ],
+    images: [IMG.soap],
     artisan: "Wildflower Studio",
     rating: 4.5,
     reviewCount: 4,

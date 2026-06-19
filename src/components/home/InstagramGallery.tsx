@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { AtSign } from "lucide-react";
+import { IMG } from "@/lib/images";
 
 const images = [
-  "https://images.unsplash.com/photo-1602874801007-bd36c0cfcfae?q=80&w=600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1565193298357-c7b9b2e2ad4d?q=80&w=600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1601058268499-e52e8b850b97?q=80&w=600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1616627561839-074385245ff6?q=80&w=600&auto=format&fit=crop",
+  IMG.candleJar,
+  IMG.potteryBowls,
+  IMG.woodworkers,
+  IMG.macrame,
+  IMG.giftBox,
+  IMG.linenPillow,
 ];
 
 export function InstagramGallery() {

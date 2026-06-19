@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { IMG } from "@/lib/images";
 
 export function ArtisanSpotlight() {
   return (
@@ -8,7 +9,7 @@ export function ArtisanSpotlight() {
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
           <Image
-            src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200&auto=format&fit=crop"
+            src={IMG.woodworkers}
             alt="Artisan carving a wooden spoon by hand"
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"

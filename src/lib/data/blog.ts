@@ -1,4 +1,5 @@
 import type { BlogPost } from "@/lib/types";
+import { IMG } from "@/lib/images";
 
 export const blogPosts: BlogPost[] = [
   {
@@ -11,7 +12,7 @@ export const blogPosts: BlogPost[] = [
       "Avoid sudden temperature changes, like moving a piece straight from the fridge to a hot oven, which can cause cracking.",
       "Store pieces with felt or cloth between them to prevent chipping, and let unglazed terracotta breathe rather than sealing it in plastic.",
     ],
-    image: "https://images.unsplash.com/photo-1565193298357-c7b9b2e2ad4d?q=80&w=1200&auto=format&fit=crop",
+    image: IMG.potteryBowls,
     author: "Riverstone Ceramics",
     date: "2025-09-02",
     category: "Care Guides",
@@ -26,7 +27,7 @@ export const blogPosts: BlogPost[] = [
       "\"We only work with wood that's already lived a life,\" says co-founder Tom. \"Old barn beams, storm-fallen trees — every board has a story before it even reaches our shop.\"",
       "Each piece passes through six pairs of hands before it ships, from rough milling to the final hand-rubbed oil finish.",
     ],
-    image: "https://images.unsplash.com/photo-1601058268499-e52e8b850b97?q=80&w=1200&auto=format&fit=crop",
+    image: IMG.woodworkers,
     author: "A Bud Above Editorial",
     date: "2025-10-14",
     category: "Artisan Spotlight",
@@ -41,7 +42,7 @@ export const blogPosts: BlogPost[] = [
       "Trim the wick to about 6mm before each burn to keep the flame steady and reduce soot.",
       "Keep burns under four hours at a time, and always burn on a heat-safe, level surface away from drafts.",
     ],
-    image: "https://images.unsplash.com/photo-1602874801007-bd36c0cfcfae?q=80&w=1200&auto=format&fit=crop",
+    image: IMG.candleJar,
     author: "Maple & Ember Co.",
     date: "2025-11-01",
     category: "Care Guides",
@@ -57,7 +58,7 @@ export const blogPosts: BlogPost[] = [
       "For the cozy homebody: a chunky knit throw or our balsam fir candle.",
       "For the person who has everything: a curated artisan gift box, packed and ribboned by hand.",
     ],
-    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200&auto=format&fit=crop",
+    image: IMG.giftBox,
     author: "A Bud Above Editorial",
     date: "2025-11-20",
     category: "Gift Guides",
