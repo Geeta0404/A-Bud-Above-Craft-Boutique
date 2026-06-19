@@ -22,7 +22,7 @@ export default function OurStoryPage() {
       <p className="mt-4 text-muted-foreground">
         A Bud Above began with a simple idea: handmade things carry more warmth than anything mass-produced ever
         could. What started as a single candle stand has grown into a curated home for dozens of Canadian
-        artisans — but our mission hasn't changed.
+        artisans — but our mission hasn&rsquo;t changed.
       </p>
 
       <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">

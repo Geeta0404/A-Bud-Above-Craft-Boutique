@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
           <h2 className="font-heading text-xl font-semibold">2. How We Use Your Information</h2>
           <p className="mt-2 text-muted-foreground">
             We use your information to process orders, communicate with you about purchases, send marketing
-            communications you've opted into, and improve our products and services.
+            communications you&rsquo;ve opted into, and improve our products and services.
           </p>
         </section>
         <section>

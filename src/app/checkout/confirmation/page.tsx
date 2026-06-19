@@ -19,6 +19,7 @@ export default function ConfirmationPage() {
 
   useEffect(() => {
     const raw = sessionStorage.getItem("aba-last-order");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time read from sessionStorage on mount
     if (raw) setOrder(JSON.parse(raw));
   }, []);
 

@@ -14,7 +14,7 @@ export default function ContactPage() {
       <PageBreadcrumbs items={[{ label: "Contact Us" }]} />
       <h1 className="font-heading text-3xl font-semibold">Contact Us</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
-        Questions about an order, a product, or a workshop? We'd love to hear from you.
+        Questions about an order, a product, or a workshop? We&rsquo;d love to hear from you.
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px]">
