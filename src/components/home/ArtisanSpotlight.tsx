@@ -22,7 +22,7 @@ export function ArtisanSpotlight() {
         <Reveal delay={0.15}>
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">Artisan Spotlight</p>
-            <h2 className="mt-2 font-heading text-3xl font-medium italic sm:text-4xl">Northbound Woodshop</h2>
+            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">Northbound Woodshop</h2>
             <p className="mt-5 text-muted-foreground">
               Tucked into a converted barn outside Peterborough, Ontario, Tom and Lia have been giving reclaimed
               hardwood a second life since 2016. Every board, spoon, and box passes through six pairs of hands

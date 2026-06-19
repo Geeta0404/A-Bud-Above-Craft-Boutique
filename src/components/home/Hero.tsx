@@ -30,7 +30,7 @@ export function Hero() {
           <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm">
             Handcrafted &amp; One of a Kind
           </p>
-          <h1 className="font-heading text-5xl font-medium leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
+          <h1 className="font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
             Elegance, Crafted by Hand
           </h1>
           <p className="mt-6 max-w-md text-balance text-base text-white/85 sm:text-lg">

@@ -18,7 +18,7 @@ export function Newsletter() {
 
   return (
     <Reveal className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
-      <h2 className="font-heading text-3xl font-medium italic sm:text-4xl">Join Our Community of Craft Lovers</h2>
+      <h2 className="font-heading text-3xl font-bold sm:text-4xl">Join Our Community of Craft Lovers</h2>
       <p className="mt-3 text-muted-foreground">
         Get 10% off your first order, early access to new collections, and stories from our artisans.
       </p>

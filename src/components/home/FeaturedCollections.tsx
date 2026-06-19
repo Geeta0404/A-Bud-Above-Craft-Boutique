@@ -12,7 +12,7 @@ export function FeaturedCollections() {
         <div className="mb-10 flex items-end justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">Shop by Collection</p>
-            <h2 className="mt-2 font-heading text-3xl font-medium italic sm:text-4xl">Featured Collections</h2>
+            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">Featured Collections</h2>
             <p className="mt-2 text-muted-foreground">Explore handcrafted goods by category.</p>
           </div>
           <Link

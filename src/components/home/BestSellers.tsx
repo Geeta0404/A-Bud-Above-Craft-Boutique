@@ -12,7 +12,7 @@ export function BestSellers() {
         <div className="mb-10 flex items-end justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">Customer Favourites</p>
-            <h2 className="mt-2 font-heading text-3xl font-medium italic sm:text-4xl">Best Sellers</h2>
+            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">Best Sellers</h2>
             <p className="mt-2 text-muted-foreground">Loved again and again by our customers.</p>
           </div>
           <Link
