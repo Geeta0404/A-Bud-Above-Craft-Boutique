@@ -120,19 +120,51 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply font-sans scroll-smooth;
+  }
   body {
     @apply bg-background text-foreground;
   }
-  html {
-    @apply font-sans;
-  }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    @apply font-heading tracking-tight leading-[1.1];
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .hover-lift {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -16px oklch(0.25 0.02 50 / 0.25);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }

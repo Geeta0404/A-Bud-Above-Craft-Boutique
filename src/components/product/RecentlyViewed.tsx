@@ -1,0 +1,26 @@
+"use client";
+
+import { products } from "@/lib/data/products";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
+import { ProductCard } from "@/components/shop/ProductCard";
+
+export function RecentlyViewed({ excludeSlug }: { excludeSlug?: string }) {
+  const slugs = useRecentlyViewed().filter((s) => s !== excludeSlug);
+  const viewed = slugs
+    .map((slug) => products.find((p) => p.slug === slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .slice(0, 4);
+
+  if (viewed.length === 0) return null;
+
+  return (
+    <section className="mt-16">
+      <h2 className="font-heading text-2xl font-medium italic">Recently Viewed</h2>
+      <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+        {viewed.map((product) => (
+          <ProductCard key={product.slug} product={product} />
+        ))}
+      </div>
+    </section>
+  );
+}

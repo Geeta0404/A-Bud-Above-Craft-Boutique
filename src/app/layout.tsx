@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -9,15 +9,18 @@ import { Toaster } from "@/components/ui/sonner";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
-const heading = Playfair_Display({
+const heading = Fraunces({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
-const body = Inter({
+const body = Manrope({
   variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

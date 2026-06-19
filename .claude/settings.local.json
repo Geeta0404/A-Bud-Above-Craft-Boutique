@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"E:\\\\LaunchPadInc\\\\Websites\\\\abudabovecraftboutique\\\\.claude\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

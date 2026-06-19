@@ -5,6 +5,8 @@ import { Gallery } from "@/components/product/Gallery";
 import { AddToCartForm } from "@/components/product/AddToCartForm";
 import { Reviews } from "@/components/product/Reviews";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
+import { RecentlyViewed } from "@/components/product/RecentlyViewed";
+import { TrackView } from "@/components/product/TrackView";
 import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { CAD, SITE_URL } from "@/lib/constants";
@@ -40,6 +42,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <TrackView slug={product.slug} />
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -77,7 +80,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
         <div>
           <p className="text-sm uppercase tracking-wide text-muted-foreground">{product.artisan}</p>
-          <h1 className="mt-1 font-heading text-3xl font-semibold">{product.name}</h1>
+          <h1 className="mt-1 font-heading text-3xl font-medium">{product.name}</h1>
           <div className="mt-3 flex items-baseline gap-3">
             <span className="text-2xl font-semibold">{CAD(product.price)}</span>
             {product.compareAtPrice && (
@@ -114,6 +117,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <RelatedProducts products={related} />
+      <RecentlyViewed excludeSlug={product.slug} />
     </div>
   );
 }
