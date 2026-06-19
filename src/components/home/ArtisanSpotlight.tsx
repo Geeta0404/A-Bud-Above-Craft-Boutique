@@ -9,7 +9,7 @@ export function ArtisanSpotlight() {
     <section className="bg-muted">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
         <Reveal>
-          <div className="hover-lift relative aspect-[4/3] overflow-hidden rounded-3xl shadow-lg">
+          <div className="img-frame hover-lift relative aspect-[4/3] overflow-hidden">
             <Image
               src={IMG.woodworkers}
               alt="Artisan woodworkers crafting a handmade piece"

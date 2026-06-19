@@ -22,8 +22,8 @@ export function ProductCard({ product }: { product: Product }) {
   const wishlisted = has(product.slug);
 
   return (
-    <div className="hover-lift group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
-      <div className="relative aspect-square overflow-hidden bg-muted">
+    <div className="hover-lift group relative flex h-full flex-col rounded-2xl border border-border bg-card p-2">
+      <div className="img-frame relative aspect-square overflow-hidden bg-muted">
         <Link href={`/shop/${product.slug}`} className="absolute inset-0 z-0 block">
           <Image
             src={product.images[0]}

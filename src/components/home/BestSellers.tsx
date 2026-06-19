@@ -7,7 +7,8 @@ import { Reveal } from "@/components/shared/Reveal";
 export function BestSellers() {
   const products = getBestSellers(4);
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <section className="bg-muted/60 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Reveal>
         <div className="mb-10 flex items-end justify-between">
           <div>
@@ -24,12 +25,13 @@ export function BestSellers() {
           </Link>
         </div>
       </Reveal>
-      <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+      <div className="grid grid-cols-2 items-stretch gap-4 sm:gap-6 lg:grid-cols-4">
         {products.map((product, i) => (
-          <Reveal key={product.slug} delay={i * 0.08}>
+          <Reveal key={product.slug} delay={i * 0.08} className="h-full">
             <ProductCard product={product} />
           </Reveal>
         ))}
+      </div>
       </div>
     </section>
   );

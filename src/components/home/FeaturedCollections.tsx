@@ -29,7 +29,7 @@ export function FeaturedCollections() {
           <Reveal key={category.slug} delay={i * 0.08}>
             <Link
               href={`/categories/${category.slug}`}
-              className="hover-lift group relative block aspect-[3/4] overflow-hidden rounded-2xl"
+              className="img-frame hover-lift group relative block aspect-[3/4] overflow-hidden"
             >
               <Image
                 src={category.image}

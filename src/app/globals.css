@@ -151,6 +151,16 @@
     transform: translateY(-4px);
     box-shadow: 0 16px 32px -16px oklch(0.22 0.02 140 / 0.25);
   }
+
+  .img-frame {
+    border-radius: 45% 0% 45% 0%;
+    border: 6px solid var(--card);
+    box-shadow: 0 0 0 1px var(--border), 0 18px 30px -16px oklch(0.22 0.02 140 / 0.3);
+    transition: border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .img-frame:hover {
+    border-radius: 28% 0% 28% 0%;
+  }
 }
 
 @keyframes fade-up {

@@ -5,11 +5,18 @@ export const SITE_URL = "https://abudabovecraftboutique.ca";
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Our Story", href: "/our-story" },
+  {
+    label: "About Us",
+    href: "/about",
+    children: [
+      { label: "About Us", href: "/about", description: "Our mission, values, and craft" },
+      { label: "Our Story", href: "/our-story", description: "How A Bud Above began" },
+      { label: "Workshops & Events", href: "/workshops", description: "Hands-on classes with our artisans" },
+      { label: "Blog", href: "/blog", description: "Care guides & artisan spotlights" },
+    ],
+  },
   { label: "Shop", href: "/shop" },
   { label: "Categories", href: "/categories" },
-  { label: "Workshops & Events", href: "/workshops" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 

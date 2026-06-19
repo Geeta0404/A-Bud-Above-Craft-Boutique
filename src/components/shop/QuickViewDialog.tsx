@@ -28,10 +28,10 @@ export function QuickViewDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl overflow-hidden p-0 sm:rounded-2xl">
+      <DialogContent className="max-h-[85vh] max-w-2xl overflow-hidden p-0 sm:rounded-2xl">
         <DialogTitle className="sr-only">{product.name}</DialogTitle>
-        <div className="grid grid-cols-1 sm:grid-cols-2">
-          <div className="relative aspect-square bg-muted">
+        <div className="grid max-h-[85vh] grid-cols-1 sm:grid-cols-2">
+          <div className="relative h-64 bg-muted sm:h-full">
             <Image src={product.images[0]} alt={product.name} fill sizes="50vw" className="object-cover" />
             {product.isBestSeller && (
               <span className="absolute left-3 top-3 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
@@ -39,7 +39,7 @@ export function QuickViewDialog({
               </span>
             )}
           </div>
-          <div className="flex flex-col p-6">
+          <div className="flex flex-col overflow-y-auto p-6">
             <p className="text-xs uppercase tracking-wide text-muted-foreground">{product.artisan}</p>
             <h2 className="mt-1 font-heading text-2xl font-medium">{product.name}</h2>
             <RatingStars rating={product.rating} className="mt-2" />

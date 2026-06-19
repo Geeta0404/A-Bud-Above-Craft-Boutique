@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Fraunces, Manrope, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -21,6 +21,13 @@ const body = Manrope({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const logoFont = Cormorant_Garamond({
+  variable: "--font-logo",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  style: ["italic"],
 });
 
 export const metadata: Metadata = {
@@ -47,7 +54,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-CA" className={`${heading.variable} ${body.variable} h-full antialiased`}>
+    <html
+      lang="en-CA"
+      className={`${heading.variable} ${body.variable} ${logoFont.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
         <JsonLd
           data={{
