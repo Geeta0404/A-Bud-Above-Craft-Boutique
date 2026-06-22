@@ -13,7 +13,7 @@ export function OrderSummary({
   const total = subtotal + shipping + tax;
 
   return (
-    <div className="rounded-xl border border-border bg-card p-6">
+    <div className="rounded-3xl border border-border bg-card/60 p-6 shadow-sm backdrop-blur-sm sm:p-10">
       <h2 className="font-heading text-lg font-semibold">Order Summary</h2>
       <dl className="mt-4 space-y-2 text-sm">
         <div className="flex justify-between">

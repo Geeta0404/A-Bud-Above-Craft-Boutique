@@ -17,25 +17,31 @@ export default function ContactPage() {
         Questions about an order, a product, or a workshop? We&rsquo;d love to hear from you.
       </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px]">
+      <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px]">
         <ContactForm />
-        <div className="space-y-4 rounded-xl border border-border bg-card p-6">
-          <div className="flex items-start gap-3">
-            <Mail className="mt-0.5 h-4 w-4 text-primary" />
+        <div className="space-y-5 self-start">
+          <div className="flex items-start gap-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm/15 text-warm">
+              <Mail className="h-4 w-4" />
+            </span>
             <div>
               <p className="text-sm font-medium">Email</p>
               <p className="text-sm text-muted-foreground">hello@abudabovecraftboutique.ca</p>
             </div>
           </div>
-          <div className="flex items-start gap-3">
-            <Phone className="mt-0.5 h-4 w-4 text-primary" />
+          <div className="flex items-start gap-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm/15 text-warm">
+              <Phone className="h-4 w-4" />
+            </span>
             <div>
               <p className="text-sm font-medium">Phone</p>
               <p className="text-sm text-muted-foreground">1-800-555-0123</p>
             </div>
           </div>
-          <div className="flex items-start gap-3">
-            <MapPin className="mt-0.5 h-4 w-4 text-primary" />
+          <div className="flex items-start gap-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm/15 text-warm">
+              <MapPin className="h-4 w-4" />
+            </span>
             <div>
               <p className="text-sm font-medium">Studio</p>
               <p className="text-sm text-muted-foreground">123 Seaport Lane, Halifax, NS</p>

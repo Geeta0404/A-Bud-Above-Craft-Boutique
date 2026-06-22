@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { products } from "@/lib/data/products";
@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/useDebounce";
 
 const MAX_PRICE = Math.max(...products.map((p) => p.price));
+const PAGE_SIZE = 6;
 
 export function ShopClient({ initialCategory }: { initialCategory?: string }) {
   const searchParams = useSearchParams();
@@ -63,6 +64,32 @@ export function ShopClient({ initialCategory }: { initialCategory?: string }) {
 
     return list;
   }, [selectedCategories, priceRange, debouncedQuery, sort]);
+
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [filtered]);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, filtered.length));
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [filtered.length]);
+
+  const visibleProducts = filtered.slice(0, visibleCount);
 
   const filterPanel = (
     <FilterSidebar
@@ -114,7 +141,12 @@ export function ShopClient({ initialCategory }: { initialCategory?: string }) {
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[240px_1fr]">
         <div className="hidden lg:block">{filterPanel}</div>
-        <ProductGrid products={filtered} />
+        <div>
+          <ProductGrid products={visibleProducts} />
+          {visibleCount < filtered.length && (
+            <div ref={sentinelRef} className="h-10 w-full" aria-hidden="true" />
+          )}
+        </div>
       </div>
     </div>
   );

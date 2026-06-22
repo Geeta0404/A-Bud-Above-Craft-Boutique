@@ -18,6 +18,10 @@ const STEPS = ["Shipping", "Payment", "Review"] as const;
 const SHIPPING_FIELDS = ["fullName", "email", "address", "city", "province", "postalCode"] as const;
 const PAYMENT_FIELDS = ["cardName", "cardNumber", "cardExpiry", "cardCvc"] as const;
 
+const fieldClass =
+  "h-11 w-full rounded-none border-0 border-b-2 border-input bg-transparent px-0 text-base shadow-none transition-colors placeholder:text-muted-foreground/70 focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent";
+const labelClass = "text-xs font-semibold uppercase tracking-wide text-muted-foreground";
+
 export function CheckoutClient() {
   const { items, subtotal, clearCart } = useCart();
   const router = useRouter();
@@ -51,9 +55,8 @@ export function CheckoutClient() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
-      <div>
-        <ol className="mb-8 flex items-center gap-4">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <ol className="mb-8 flex items-center gap-4">
           {STEPS.map((label, i) => (
             <li key={label} className="flex items-center gap-2">
               <span
@@ -69,119 +72,125 @@ export function CheckoutClient() {
           ))}
         </ol>
 
-        {step === 0 && (
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" {...register("fullName")} />
-              {errors.fullName && <p className="mt-1 text-sm text-destructive">{errors.fullName.message}</p>}
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" {...register("email")} />
-              {errors.email && <p className="mt-1 text-sm text-destructive">{errors.email.message}</p>}
-            </div>
-            <div>
-              <Label htmlFor="address">Street Address</Label>
-              <Input id="address" {...register("address")} />
-              {errors.address && <p className="mt-1 text-sm text-destructive">{errors.address.message}</p>}
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="city">City</Label>
-                <Input id="city" {...register("city")} />
-                {errors.city && <p className="mt-1 text-sm text-destructive">{errors.city.message}</p>}
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_360px]">
+        <div className="space-y-7 rounded-3xl border border-border bg-card/60 p-6 shadow-sm backdrop-blur-sm sm:p-10">
+          {step === 0 && (
+            <>
+              <div className="space-y-1.5">
+                <Label htmlFor="fullName" className={labelClass}>Full Name</Label>
+                <Input id="fullName" className={fieldClass} {...register("fullName")} />
+                {errors.fullName && <p className="mt-1 text-sm text-destructive">{errors.fullName.message}</p>}
               </div>
-              <div>
-                <Label htmlFor="postalCode">Postal Code</Label>
-                <Input id="postalCode" placeholder="A1A 1A1" {...register("postalCode")} />
-                {errors.postalCode && <p className="mt-1 text-sm text-destructive">{errors.postalCode.message}</p>}
+              <div className="space-y-1.5">
+                <Label htmlFor="email" className={labelClass}>Email</Label>
+                <Input id="email" type="email" className={fieldClass} {...register("email")} />
+                {errors.email && <p className="mt-1 text-sm text-destructive">{errors.email.message}</p>}
               </div>
-            </div>
-            <div>
-              <Label htmlFor="province">Province</Label>
-              <Select value={watch("province")} onValueChange={(v) => setValue("province", v, { shouldValidate: true })}>
-                <SelectTrigger id="province" className="w-full">
-                  <SelectValue placeholder="Select province" />
-                </SelectTrigger>
-                <SelectContent>
-                  {CANADIAN_PROVINCES.map((p) => (
-                    <SelectItem key={p} value={p}>
-                      {p}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.province && <p className="mt-1 text-sm text-destructive">{errors.province.message}</p>}
-            </div>
-            <Button type="button" onClick={next} className="w-full">
-              Continue to Payment
-            </Button>
-          </div>
-        )}
+              <div className="space-y-1.5">
+                <Label htmlFor="address" className={labelClass}>Street Address</Label>
+                <Input id="address" className={fieldClass} {...register("address")} />
+                {errors.address && <p className="mt-1 text-sm text-destructive">{errors.address.message}</p>}
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-1.5">
+                  <Label htmlFor="city" className={labelClass}>City</Label>
+                  <Input id="city" className={fieldClass} {...register("city")} />
+                  {errors.city && <p className="mt-1 text-sm text-destructive">{errors.city.message}</p>}
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="postalCode" className={labelClass}>Postal Code</Label>
+                  <Input id="postalCode" placeholder="A1A 1A1" className={fieldClass} {...register("postalCode")} />
+                  {errors.postalCode && <p className="mt-1 text-sm text-destructive">{errors.postalCode.message}</p>}
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="province" className={labelClass}>Province</Label>
+                <Select value={watch("province")} onValueChange={(v) => setValue("province", v, { shouldValidate: true })}>
+                  <SelectTrigger
+                    id="province"
+                    className="h-11 w-full rounded-none border-0 border-b-2 border-input bg-transparent px-0 shadow-none focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent"
+                  >
+                    <SelectValue placeholder="Select province" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CANADIAN_PROVINCES.map((p) => (
+                      <SelectItem key={p} value={p}>
+                        {p}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.province && <p className="mt-1 text-sm text-destructive">{errors.province.message}</p>}
+              </div>
+              <Button type="button" onClick={next} size="lg" className="w-full sm:w-auto">
+                Continue to Payment
+              </Button>
+            </>
+          )}
 
-        {step === 1 && (
-          <div className="space-y-4">
-            <p className="rounded-lg bg-muted px-4 py-3 text-sm text-muted-foreground">
-              This is a demo checkout — no real payment will be processed.
-            </p>
-            <div>
-              <Label htmlFor="cardName">Name on Card</Label>
-              <Input id="cardName" {...register("cardName")} />
-              {errors.cardName && <p className="mt-1 text-sm text-destructive">{errors.cardName.message}</p>}
-            </div>
-            <div>
-              <Label htmlFor="cardNumber">Card Number</Label>
-              <Input id="cardNumber" placeholder="4242 4242 4242 4242" {...register("cardNumber")} />
-              {errors.cardNumber && <p className="mt-1 text-sm text-destructive">{errors.cardNumber.message}</p>}
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="cardExpiry">Expiry (MM/YY)</Label>
-                <Input id="cardExpiry" placeholder="08/27" {...register("cardExpiry")} />
-                {errors.cardExpiry && <p className="mt-1 text-sm text-destructive">{errors.cardExpiry.message}</p>}
+          {step === 1 && (
+            <>
+              <p className="rounded-lg bg-muted px-4 py-3 text-sm text-muted-foreground">
+                This is a demo checkout — no real payment will be processed.
+              </p>
+              <div className="space-y-1.5">
+                <Label htmlFor="cardName" className={labelClass}>Name on Card</Label>
+                <Input id="cardName" className={fieldClass} {...register("cardName")} />
+                {errors.cardName && <p className="mt-1 text-sm text-destructive">{errors.cardName.message}</p>}
               </div>
-              <div>
-                <Label htmlFor="cardCvc">CVC</Label>
-                <Input id="cardCvc" placeholder="123" {...register("cardCvc")} />
-                {errors.cardCvc && <p className="mt-1 text-sm text-destructive">{errors.cardCvc.message}</p>}
+              <div className="space-y-1.5">
+                <Label htmlFor="cardNumber" className={labelClass}>Card Number</Label>
+                <Input id="cardNumber" placeholder="4242 4242 4242 4242" className={fieldClass} {...register("cardNumber")} />
+                {errors.cardNumber && <p className="mt-1 text-sm text-destructive">{errors.cardNumber.message}</p>}
               </div>
-            </div>
-            <div className="flex gap-3">
-              <Button type="button" variant="outline" onClick={back} className="w-full">
-                Back
-              </Button>
-              <Button type="button" onClick={next} className="w-full">
-                Review Order
-              </Button>
-            </div>
-          </div>
-        )}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-1.5">
+                  <Label htmlFor="cardExpiry" className={labelClass}>Expiry (MM/YY)</Label>
+                  <Input id="cardExpiry" placeholder="08/27" className={fieldClass} {...register("cardExpiry")} />
+                  {errors.cardExpiry && <p className="mt-1 text-sm text-destructive">{errors.cardExpiry.message}</p>}
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="cardCvc" className={labelClass}>CVC</Label>
+                  <Input id="cardCvc" placeholder="123" className={fieldClass} {...register("cardCvc")} />
+                  {errors.cardCvc && <p className="mt-1 text-sm text-destructive">{errors.cardCvc.message}</p>}
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Button type="button" variant="outline" onClick={back} size="lg" className="w-full">
+                  Back
+                </Button>
+                <Button type="button" onClick={next} size="lg" className="w-full">
+                  Review Order
+                </Button>
+              </div>
+            </>
+          )}
 
-        {step === 2 && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 rounded-lg bg-muted px-4 py-3 text-sm">
-              <CheckCircle2 className="h-4 w-4 text-primary" />
-              Shipping to {watch("fullName")}, {watch("address")}, {watch("city")}, {watch("province")}{" "}
-              {watch("postalCode")}
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Card ending in {watch("cardNumber")?.slice(-4) || "----"}
-            </p>
-            <div className="flex gap-3">
-              <Button type="button" variant="outline" onClick={back} className="w-full">
-                Back
-              </Button>
-              <Button type="submit" className="w-full" disabled={items.length === 0}>
-                Place Order
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+          {step === 2 && (
+            <>
+              <div className="flex items-center gap-2 rounded-lg bg-muted px-4 py-3 text-sm">
+                <CheckCircle2 className="h-4 w-4 text-primary" />
+                Shipping to {watch("fullName")}, {watch("address")}, {watch("city")}, {watch("province")}{" "}
+                {watch("postalCode")}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Card ending in {watch("cardNumber")?.slice(-4) || "----"}
+              </p>
+              <div className="flex gap-3">
+                <Button type="button" variant="outline" onClick={back} size="lg" className="w-full">
+                  Back
+                </Button>
+                <Button type="submit" size="lg" className="w-full" disabled={items.length === 0}>
+                  Place Order
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
 
-      <div>
-        <OrderSummary subtotal={subtotal} />
+        <div className="lg:sticky lg:top-24">
+          <OrderSummary subtotal={subtotal} />
+        </div>
       </div>
     </form>
   );

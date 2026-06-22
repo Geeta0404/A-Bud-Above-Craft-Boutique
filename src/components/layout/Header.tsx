@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, Heart, ShoppingBag, Search, ChevronDown, ArrowRight } from "lucide-react";
+import { Menu, Heart, ShoppingBag, Search, ChevronDown, ArrowRight, User } from "lucide-react";
 import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -104,9 +104,15 @@ export function Header() {
             />
           </form>
 
-          <Button variant="ghost" size="icon" asChild aria-label="Wishlist">
+          <Button variant="ghost" size="icon" className="h-11 w-11" asChild aria-label="Login">
+            <Link href="/login">
+              <User className="size-6" />
+            </Link>
+          </Button>
+
+          <Button variant="ghost" size="icon" className="h-11 w-11" asChild aria-label="Wishlist">
             <Link href="/wishlist" className="relative">
-              <Heart className="h-5 w-5" />
+              <Heart className="size-6" />
               {slugs.length > 0 && (
                 <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
                   {slugs.length}
@@ -115,9 +121,9 @@ export function Header() {
             </Link>
           </Button>
 
-          <Button variant="ghost" size="icon" asChild aria-label="Cart">
+          <Button variant="ghost" size="icon" className="h-11 w-11" asChild aria-label="Cart">
             <Link href="/cart" className="relative">
-              <ShoppingBag className="h-5 w-5" />
+              <ShoppingBag className="size-6" />
               {itemCount > 0 && (
                 <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
                   {itemCount}

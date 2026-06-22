@@ -28,7 +28,7 @@ export function QuickViewDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[85vh] max-w-2xl overflow-hidden p-0 sm:rounded-2xl">
+      <DialogContent className="max-h-[85vh] max-w-4xl overflow-hidden p-0 sm:max-w-4xl sm:rounded-2xl">
         <DialogTitle className="sr-only">{product.name}</DialogTitle>
         <div className="grid max-h-[85vh] grid-cols-1 sm:grid-cols-2">
           <div className="relative h-64 bg-muted sm:h-full">

@@ -5,8 +5,10 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
+import { PaletteProvider } from "@/context/PaletteContext";
 import { Toaster } from "@/components/ui/sonner";
 import { JsonLd } from "@/components/shared/JsonLd";
+import { PaletteSwitcher } from "@/components/shared/PaletteSwitcher";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
 const heading = Fraunces({
@@ -57,8 +59,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html
       lang="en-CA"
       className={`${heading.variable} ${body.variable} ${logoFont.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <JsonLd
           data={{
             "@context": "https://schema.org",
@@ -68,13 +71,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             sameAs: [],
           }}
         />
-        <CartProvider>
-          <WishlistProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </WishlistProvider>
-        </CartProvider>
+        <PaletteProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </WishlistProvider>
+          </CartProvider>
+          <PaletteSwitcher />
+        </PaletteProvider>
         <Toaster richColors position="bottom-right" />
       </body>
     </html>
