@@ -305,4 +305,4 @@ export const palettes: Palette[] = [
   },
 ];
 
-export const defaultPaletteId = "sage-meadow";
+export const defaultPaletteId = "olive-forge";
