@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 import { PhoneOtpForm } from "@/components/auth/PhoneOtpForm";
 
@@ -38,6 +38,11 @@ export function RegisterForm() {
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match.");
+      return;
+    }
+
+    if (!isSupabaseConfigured()) {
+      toast.error("Account creation is temporarily unavailable. Please try again later.");
       return;
     }
 

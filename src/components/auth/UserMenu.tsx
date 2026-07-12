@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 function firstNameOf(user: SupabaseUser): string {
   const meta = user.user_metadata as Record<string, unknown> | undefined;
@@ -36,6 +36,10 @@ export function UserMenu() {
   const hasGreeted = useRef(false);
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      setLoaded(true);
+      return;
+    }
     const supabase = createSupabaseBrowserClient();
 
     supabase.auth.getUser().then(({ data }) => {

@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
 export function GoogleSignInButton({ redirectTo = "/" }: { redirectTo?: string }) {
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
+    if (!isSupabaseConfigured()) {
+      toast.error("Sign-in is temporarily unavailable. Please try again later.");
+      return;
+    }
     setLoading(true);
     const supabase = createSupabaseBrowserClient();
     const { error } = await supabase.auth.signInWithOAuth({

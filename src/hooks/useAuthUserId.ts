@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 // Scopes per-browser data (cart, wishlist) to the signed-in account.
 // Returns "guest" while signed out, or while the session is still loading.
@@ -9,6 +9,7 @@ export function useAuthUserId(): string {
   const [userId, setUserId] = useState("guest");
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) return;
     const supabase = createSupabaseBrowserClient();
 
     supabase.auth.getUser().then(({ data }) => {

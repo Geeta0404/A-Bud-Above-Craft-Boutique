@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 const fieldClass = cn(
   "h-11 w-full rounded-none border-0 border-b-2 border-input bg-transparent px-0 text-base shadow-none",
@@ -31,6 +31,11 @@ export function PhoneOtpForm({ redirectTo = "/" }: { redirectTo?: string }) {
     const normalized = phone.replace(/[^\d+]/g, "");
     if (!/^\+[1-9]\d{6,14}$/.test(normalized)) {
       toast.error("Enter a valid phone number with country code, e.g. +15551234567");
+      return;
+    }
+
+    if (!isSupabaseConfigured()) {
+      toast.error("Sign-in is temporarily unavailable. Please try again later.");
       return;
     }
 
