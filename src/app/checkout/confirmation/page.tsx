@@ -10,8 +10,17 @@ type LastOrder = {
   orderNumber: string;
   name: string;
   email: string;
+  fulfillmentType: "pickup-in-store" | "pickup-curbside" | "delivery";
+  paymentMethod: "pay-now" | "pay-in-store";
+  address: string | null;
   items: { slug: string; name: string; quantity: number; price: number }[];
   subtotal: number;
+};
+
+const FULFILLMENT_LABEL: Record<LastOrder["fulfillmentType"], string> = {
+  "pickup-in-store": "In-Store Pickup",
+  "pickup-curbside": "Curbside Pickup",
+  delivery: "Delivery",
 };
 
 export default function ConfirmationPage() {
@@ -43,7 +52,17 @@ export default function ConfirmationPage() {
         A confirmation has been sent to {order.email}.
       </p>
 
-      <div className="mt-8 rounded-xl border border-border bg-card p-6 text-left">
+      <div className="mt-6 rounded-xl border border-border bg-card p-6 text-left text-sm">
+        <p>
+          <span className="font-medium text-foreground">{FULFILLMENT_LABEL[order.fulfillmentType]}</span>
+          {order.address ? ` — ${order.address}` : ""}
+        </p>
+        <p className="mt-1 text-muted-foreground">
+          {order.paymentMethod === "pay-now" ? "Paid by card" : "Pay by cash at " + (order.fulfillmentType === "delivery" ? "delivery" : "pickup")}
+        </p>
+      </div>
+
+      <div className="mt-4 rounded-xl border border-border bg-card p-6 text-left">
         {order.items.map((item) => (
           <div key={item.slug} className="flex justify-between py-2 text-sm">
             <span>

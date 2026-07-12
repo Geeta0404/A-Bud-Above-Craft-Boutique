@@ -3,12 +3,12 @@ import { AtSign } from "lucide-react";
 import { IMG } from "@/lib/images";
 
 const images = [
-  IMG.candleJar,
-  IMG.potteryBowls,
-  IMG.woodworkers,
-  IMG.macrame,
-  IMG.giftBox,
-  IMG.linenPillow,
+  IMG.flowerBud3,
+  IMG.preRoll1,
+  IMG.vapePen4,
+  IMG.gummies3,
+  IMG.concentrate2,
+  IMG.beverage1,
 ];
 
 export function InstagramGallery() {

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useAuthUserId } from "@/hooks/useAuthUserId";
 
 type WishlistContextValue = {
   slugs: string[];
@@ -9,26 +10,28 @@ type WishlistContextValue = {
 };
 
 const WishlistContext = createContext<WishlistContextValue | null>(null);
-const STORAGE_KEY = "aba-wishlist";
+const storageKeyFor = (userId: string) => `aba-wishlist-${userId}`;
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
+  const userId = useAuthUserId();
   const [slugs, setSlugs] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
 
+  // Re-hydrate from this account's own storage bucket whenever the signed-in user changes.
   useEffect(() => {
+    setHydrated(false);
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydration from localStorage on mount
-      if (raw) setSlugs(JSON.parse(raw));
+      const raw = localStorage.getItem(storageKeyFor(userId));
+      setSlugs(raw ? JSON.parse(raw) : []);
     } catch {
-      // ignore corrupt storage
+      setSlugs([]);
     }
     setHydrated(true);
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
-    if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(slugs));
-  }, [slugs, hydrated]);
+    if (hydrated) localStorage.setItem(storageKeyFor(userId), JSON.stringify(slugs));
+  }, [slugs, hydrated, userId]);
 
   const toggle = (slug: string) =>
     setSlugs((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));

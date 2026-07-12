@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { SITE_NAME } from "@/lib/constants";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -36,9 +36,7 @@ export default function OGImage() {
           </svg>
         </div>
         <div style={{ fontSize: 56, fontWeight: 700 }}>{SITE_NAME}</div>
-        <div style={{ fontSize: 28, marginTop: 16, color: "#7A6A57" }}>
-          Handcrafted Goods, Thoughtfully Made
-        </div>
+        <div style={{ fontSize: 28, marginTop: 16, color: "#7A6A57" }}>{SITE_TAGLINE}</div>
       </div>
     ),
     { ...size }

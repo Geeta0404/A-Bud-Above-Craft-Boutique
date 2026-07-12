@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { STORE_INFO } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -26,7 +27,7 @@ export default function ContactPage() {
             </span>
             <div>
               <p className="text-sm font-medium">Email</p>
-              <p className="text-sm text-muted-foreground">hello@abudabovecraftboutique.ca</p>
+              <p className="text-sm text-muted-foreground">{STORE_INFO.email}</p>
             </div>
           </div>
           <div className="flex items-start gap-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
@@ -35,7 +36,7 @@ export default function ContactPage() {
             </span>
             <div>
               <p className="text-sm font-medium">Phone</p>
-              <p className="text-sm text-muted-foreground">1-800-555-0123</p>
+              <p className="text-sm text-muted-foreground">{STORE_INFO.phone}</p>
             </div>
           </div>
           <div className="flex items-start gap-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
@@ -43,8 +44,8 @@ export default function ContactPage() {
               <MapPin className="h-4 w-4" />
             </span>
             <div>
-              <p className="text-sm font-medium">Studio</p>
-              <p className="text-sm text-muted-foreground">123 Seaport Lane, Halifax, NS</p>
+              <p className="text-sm font-medium">Store</p>
+              <p className="text-sm text-muted-foreground">{STORE_INFO.address}</p>
             </div>
           </div>
         </div>

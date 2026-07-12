@@ -6,7 +6,9 @@ import { Heart } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { RatingStars } from "@/components/shared/RatingStars";
+import { Badge } from "@/components/ui/badge";
 import { CAD } from "@/lib/constants";
+import { formatCbd, formatThc, hasPotencyInfo } from "@/lib/cannabis";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -40,8 +42,16 @@ export function QuickViewDialog({
             )}
           </div>
           <div className="flex flex-col overflow-y-auto p-6">
-            <p className="text-xs uppercase tracking-wide text-muted-foreground">{product.artisan}</p>
+            <p className="text-xs uppercase tracking-wide text-muted-foreground">{product.brand}</p>
             <h2 className="mt-1 font-heading text-2xl font-medium">{product.name}</h2>
+            <div className="mt-2 flex flex-wrap items-center gap-1.5">
+              <Badge variant="outline">{product.strainType}</Badge>
+              {hasPotencyInfo(product) && (
+                <span className="text-xs text-muted-foreground">
+                  {formatThc(product)} · {formatCbd(product)}
+                </span>
+              )}
+            </div>
             <RatingStars rating={product.rating} className="mt-2" />
             <div className="mt-3 flex items-baseline gap-2">
               <span className="text-xl font-semibold">{CAD(product.price)}</span>

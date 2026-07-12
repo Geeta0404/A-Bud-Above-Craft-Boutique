@@ -3,7 +3,13 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { PackageSearch } from "lucide-react";
 
-export function ProductGrid({ products }: { products: Product[] }) {
+export function ProductGrid({
+  products,
+  onClearFilters,
+}: {
+  products: Product[];
+  onClearFilters?: () => void;
+}) {
   if (products.length === 0) {
     return (
       <EmptyState
@@ -12,6 +18,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
         description="Try adjusting your filters or search terms to find what you're looking for."
         actionLabel="Clear filters"
         actionHref="/shop"
+        onAction={onClearFilters}
       />
     );
   }

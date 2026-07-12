@@ -2,54 +2,64 @@ import type { FaqItem } from "@/lib/types";
 
 export const faqs: FaqItem[] = [
   {
-    category: "Orders & Shipping",
-    question: "How long does shipping take?",
+    category: "Orders & Delivery",
+    question: "How long does delivery take?",
     answer:
-      "Most orders ship within 2–3 business days and arrive within 4–8 business days depending on your location. Tracking is emailed as soon as your order ships.",
+      "Most areas offer same-day delivery when you order before the cutoff time for your neighbourhood — see our Delivery page for exact hours and zones.",
   },
   {
-    category: "Orders & Shipping",
-    question: "Do you ship internationally?",
+    category: "Orders & Delivery",
+    question: "Do you deliver outside Metro Vancouver?",
     answer:
-      "We currently ship within our home region only. We're working on expanding internationally — join our newsletter to be notified when that launches.",
+      "We currently deliver within Metro Vancouver only. We're expanding our delivery zones regularly — check the Delivery page or contact us to see if we can accommodate your address.",
   },
   {
-    category: "Orders & Shipping",
+    category: "Orders & Delivery",
     question: "Can I track my order?",
-    answer: "Yes — you'll receive a tracking link by email the moment your order leaves the studio.",
+    answer: "Yes — you'll get a text when your driver is on the way, and again when they're close, so you always know where your order is.",
   },
   {
     category: "Returns",
     question: "What is your return policy?",
     answer:
-      "We accept returns on unused, unopened items within 30 days of delivery. Because every piece is handmade, custom orders are final sale.",
+      "For health and safety reasons, opened cannabis products cannot be returned. Unopened items in original packaging are eligible for exchange within 48 hours of pickup or delivery.",
   },
   {
     category: "Returns",
-    question: "What if my item arrives damaged?",
+    question: "What if my item arrives damaged or incorrect?",
     answer:
-      "Contact us within 7 days with a photo of the damage and we'll send a replacement or full refund, no questions asked.",
+      "Contact us within 24 hours with a photo of the item and we'll sort out a replacement or refund, no questions asked.",
   },
   {
     category: "Products",
-    question: "Are your products really handmade?",
+    question: "What's the difference between Sativa, Indica, and Hybrid?",
     answer:
-      "Yes — every product is made by an independent artisan or small studio. Because of this, slight variations in colour and texture are part of the charm.",
+      "Sativa strains tend to be more energizing, Indica strains more relaxing, and Hybrids blend traits of both. Effects vary by person, so we recommend starting low and going slow with anything new.",
   },
   {
     category: "Products",
-    question: "How do I care for my handmade items?",
+    question: "How is potency (THC/CBD) determined?",
     answer:
-      "Each product page includes care instructions specific to that item, and our Blog has in-depth care guides for candles, pottery, and textiles.",
+      "Every product page lists lab-tested THC and CBD ranges. Percentages can vary slightly between batches, which is normal for a natural product.",
+  },
+  {
+    category: "Age & ID Verification",
+    question: "Do I need to verify my age?",
+    answer: "Yes — you must be 19 years of age or older to browse and purchase from A Bud Above, in compliance with BC cannabis regulations.",
+  },
+  {
+    category: "Age & ID Verification",
+    question: "What ID do I need to provide?",
+    answer: "A valid, unexpired government-issued photo ID is required at pickup or upon delivery. We're unable to complete an order without it.",
   },
   {
     category: "Workshops",
     question: "Do I need experience to join a workshop?",
-    answer: "Not at all — our workshops are designed for complete beginners, with small class sizes and hands-on guidance.",
+    answer: "Not at all — our sessions are designed for complete beginners, with small group sizes and hands-on guidance. You must be 19+ with valid ID to attend.",
   },
   {
     category: "Workshops",
     question: "What is your workshop cancellation policy?",
-    answer: "Full refunds are available up to 72 hours before a workshop. After that, we're happy to transfer your spot to a future date.",
+    answer: "Full refunds are available up to 72 hours before a session. After that, we're happy to transfer your spot to a future date.",
   },
 ];

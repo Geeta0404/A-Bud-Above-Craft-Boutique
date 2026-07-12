@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Care guides, artisan spotlights, and gift ideas from A Bud Above Craft Boutique.",
+  description: "Strain guides, grower spotlights, and care tips from A Bud Above Craft Boutique.",
 };
 
 export default function BlogPage() {
@@ -16,7 +16,7 @@ export default function BlogPage() {
       <PageBreadcrumbs items={[{ label: "Blog" }]} />
       <h1 className="font-heading text-3xl font-semibold">The Journal</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
-        Care guides, artisan spotlights, and gifting inspiration from A Bud Above.
+        Strain guides, grower spotlights, and care tips from A Bud Above.
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

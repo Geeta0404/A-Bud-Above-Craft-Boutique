@@ -17,7 +17,7 @@ export function BestSellers() {
             <p className="mt-2 text-muted-foreground">Loved again and again by our customers.</p>
           </div>
           <Link
-            href="/shop?sort=popularity"
+            href="/shop/all?sort=popularity"
             className="group hidden items-center gap-1.5 text-sm font-medium text-primary sm:flex"
           >
             Shop best sellers

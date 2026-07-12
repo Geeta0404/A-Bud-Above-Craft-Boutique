@@ -11,6 +11,8 @@ import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { CAD, SITE_URL } from "@/lib/constants";
 import { categories } from "@/lib/data/categories";
+import { formatCbd, formatThc, hasPotencyInfo } from "@/lib/cannabis";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function generateStaticParams() {
@@ -79,8 +81,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <Gallery images={product.images} name={product.name} />
 
         <div>
-          <p className="text-sm uppercase tracking-wide text-muted-foreground">{product.artisan}</p>
+          <p className="text-sm uppercase tracking-wide text-muted-foreground">{product.brand}</p>
           <h1 className="mt-1 font-heading text-3xl font-medium">{product.name}</h1>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <Badge variant="outline">{product.strainType}</Badge>
+            <span className="text-sm text-muted-foreground">{product.size}</span>
+            {hasPotencyInfo(product) && (
+              <span className="text-sm text-muted-foreground">
+                {formatThc(product)} · {formatCbd(product)}
+              </span>
+            )}
+          </div>
           <div className="mt-3 flex items-baseline gap-3">
             <span className="text-2xl font-semibold">{CAD(product.price)}</span>
             {product.compareAtPrice && (
@@ -96,17 +107,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <Tabs defaultValue="details" className="mt-8">
             <TabsList>
               <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="materials">Materials</TabsTrigger>
+              <TabsTrigger value="strain-info">Strain Info</TabsTrigger>
               <TabsTrigger value="reviews">Reviews ({product.reviewCount})</TabsTrigger>
             </TabsList>
             <TabsContent value="details" className="text-sm text-muted-foreground">
               {product.longDescription}
             </TabsContent>
-            <TabsContent value="materials">
-              <ul className="list-inside list-disc text-sm text-muted-foreground">
-                {product.materials.map((m) => (
-                  <li key={m}>{m}</li>
-                ))}
+            <TabsContent value="strain-info">
+              <ul className="space-y-1 text-sm text-muted-foreground">
+                <li>Strain type: {product.strainType}</li>
+                {hasPotencyInfo(product) && (
+                  <>
+                    <li>{formatThc(product)}</li>
+                    <li>{formatCbd(product)}</li>
+                  </>
+                )}
+                <li>Size: {product.size}</li>
               </ul>
             </TabsContent>
             <TabsContent value="reviews">

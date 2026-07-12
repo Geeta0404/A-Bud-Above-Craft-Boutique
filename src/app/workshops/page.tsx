@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Workshops & Events",
-  description: "Join hands-on craft workshops led by our artisan partners.",
+  description: "Join hands-on cannabis education sessions led by our in-house team.",
 };
 
 export default function WorkshopsPage() {
@@ -17,7 +17,7 @@ export default function WorkshopsPage() {
       <PageBreadcrumbs items={[{ label: "Workshops & Events" }]} />
       <h1 className="font-heading text-3xl font-semibold">Workshops & Events</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
-        Learn directly from our artisans in small, hands-on classes — no experience necessary.
+        Learn directly from our team in small, hands-on sessions — no experience necessary. Must be 19+ with valid ID.
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">

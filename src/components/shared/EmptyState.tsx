@@ -8,12 +8,14 @@ export function EmptyState({
   description,
   actionLabel,
   actionHref,
+  onAction,
 }: {
   icon: LucideIcon;
   title: string;
   description: string;
   actionLabel?: string;
   actionHref?: string;
+  onAction?: () => void;
 }) {
   return (
     <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-border bg-muted/40 px-6 py-16 text-center">
@@ -22,7 +24,8 @@ export function EmptyState({
         <h3 className="font-heading text-xl font-semibold">{title}</h3>
         <p className="max-w-sm text-sm text-muted-foreground">{description}</p>
       </div>
-      {actionLabel && actionHref && (
+      {actionLabel && onAction && <Button onClick={onAction}>{actionLabel}</Button>}
+      {actionLabel && !onAction && actionHref && (
         <Button asChild>
           <Link href={actionHref}>{actionLabel}</Link>
         </Button>

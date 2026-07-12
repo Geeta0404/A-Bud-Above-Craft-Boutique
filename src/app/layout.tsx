@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Fraunces, Manrope, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { PaletteProvider } from "@/context/PaletteContext";
 import { Toaster } from "@/components/ui/sonner";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { PaletteSwitcher } from "@/components/shared/PaletteSwitcher";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { AgeGate } from "@/components/shared/AgeGate";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/constants";
+import { palettes, defaultPaletteId } from "@/lib/palettes";
+
+// Applies the saved palette's CSS variables and dark/light class before first paint,
+// so a light theme doesn't flash the default dark background on load (see PaletteContext).
+const paletteMap = Object.fromEntries(palettes.map((p) => [p.id, { mode: p.mode, colors: p.colors }]));
+const themeInitScript = `(function(){try{var palettes=${JSON.stringify(paletteMap)};var id=localStorage.getItem("aba-palette")||"${defaultPaletteId}";var p=palettes[id]||palettes["${defaultPaletteId}"];var root=document.documentElement;for(var key in p.colors){var cssVar="--"+key.replace(/([A-Z])/g,"-$1").toLowerCase();root.style.setProperty(cssVar,p.colors[key]);}root.classList.toggle("dark",p.mode==="dark");}catch(e){}})();`;
 
 const heading = Fraunces({
   variable: "--font-heading",
@@ -35,7 +44,7 @@ const logoFont = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} | Handcrafted Goods, Thoughtfully Made`,
+    default: `${SITE_NAME} | ${SITE_TAGLINE}`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
@@ -62,6 +71,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <JsonLd
           data={{
             "@context": "https://schema.org",
@@ -71,17 +83,19 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             sameAs: [],
           }}
         />
+        <AgeGate />
         <PaletteProvider>
           <CartProvider>
             <WishlistProvider>
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
+              <CartDrawer />
             </WishlistProvider>
           </CartProvider>
           <PaletteSwitcher />
         </PaletteProvider>
-        <Toaster richColors position="bottom-right" />
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

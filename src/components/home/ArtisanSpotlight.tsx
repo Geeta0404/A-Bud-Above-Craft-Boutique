@@ -11,8 +11,8 @@ export function ArtisanSpotlight() {
         <Reveal>
           <div className="img-frame hover-lift relative aspect-[4/3] overflow-hidden">
             <Image
-              src={IMG.woodworkers}
-              alt="Artisan woodworkers crafting a handmade piece"
+              src={IMG.flowerBud5}
+              alt="Close-up of premium cannabis flower"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover"
@@ -21,15 +21,14 @@ export function ArtisanSpotlight() {
         </Reveal>
         <Reveal delay={0.15}>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Artisan Spotlight</p>
-            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">Northbound Woodshop</h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Grower Spotlight</p>
+            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">BC Smalls</h2>
             <p className="mt-5 text-muted-foreground">
-              Tucked into a converted barn outside Peterborough, Ontario, Tom and Lia have been giving reclaimed
-              hardwood a second life since 2016. Every board, spoon, and box passes through six pairs of hands
-              before it reaches your home.
+              Grown indoors in small batches and cured slow for maximum flavour, BC Smalls proves that the
+              trim doesn&apos;t have to mean a tradeoff on quality — same bud, better value.
             </p>
             <Button className="mt-7" asChild>
-              <Link href="/blog/meet-the-makers-northbound-woodshop">Read Their Story</Link>
+              <Link href="/categories/flower">Shop Flower</Link>
             </Button>
           </div>
         </Reveal>

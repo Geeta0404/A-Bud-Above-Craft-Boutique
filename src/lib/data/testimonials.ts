@@ -4,32 +4,32 @@ export const testimonials: Testimonial[] = [
   {
     id: "t1",
     author: "Hannah L.",
-    location: "Toronto, ON",
+    location: "Vancouver, BC",
     rating: 5,
     quote:
-      "Every piece I've ordered feels like it was made just for my home. The packaging alone made it feel like a luxury experience.",
+      "The flower selection is consistently top-tier and the staff actually know their strains. My go-to for anything sativa.",
   },
   {
     id: "t2",
     author: "David C.",
-    location: "Vancouver, BC",
+    location: "Burnaby, BC",
     rating: 5,
     quote:
-      "I bought the walnut charcuterie board as a wedding gift and the couple still talks about it. Genuinely heirloom quality.",
+      "Ordered delivery on a whim and it showed up faster than I expected, discreetly packaged. Now my regular order.",
   },
   {
     id: "t3",
     author: "Marie-Ève P.",
-    location: "Montréal, QC",
+    location: "Richmond, BC",
     rating: 5,
     quote:
-      "Fast shipping and the candles smell incredible. I've already reordered my favourite twice.",
+      "Great selection of edibles and the potency labelling is always accurate. I've already reordered my favourite gummies twice.",
   },
   {
     id: "t4",
     author: "Aisha R.",
-    location: "Calgary, AB",
+    location: "Kitsilano, Vancouver",
     rating: 4,
-    quote: "Beautiful craftsmanship and lovely customer service when I had a question about my order.",
+    quote: "Helpful, no-pressure staff and a clean, easy-to-browse menu. Answered all my questions about dosing.",
   },
 ];

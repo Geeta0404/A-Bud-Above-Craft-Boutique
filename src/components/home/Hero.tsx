@@ -9,28 +9,28 @@ import { IMG } from "@/lib/images";
 
 const SLIDES = [
   {
-    image: IMG.candleJar,
-    eyebrow: "Hand-Poured Candles",
-    title: "Elegance, Crafted by Hand",
-    alt: "Hand-poured soy candle burning in a glass jar",
+    image: IMG.flowerBud2,
+    eyebrow: "Premium BC Flower",
+    title: "Grown Slow, Cured Right",
+    alt: "Close-up of premium indoor-grown cannabis flower",
   },
   {
-    image: IMG.potteryBowls,
-    eyebrow: "Artisan Pottery & Ceramics",
-    title: "Vessels Shaped with Care",
-    alt: "Stack of handmade ceramic pottery bowls",
+    image: IMG.preRoll3,
+    eyebrow: "Hand-Rolled Pre-Rolls",
+    title: "Ready When You Are",
+    alt: "Hand-rolled cannabis pre-roll",
   },
   {
-    image: IMG.woodworkers,
-    eyebrow: "Handcrafted Woodwork",
-    title: "Reclaimed Wood, Reimagined",
-    alt: "Artisan woodworkers crafting a handmade piece",
+    image: IMG.vapePen2,
+    eyebrow: "Vaporizers & Cartridges",
+    title: "Discreet. Potent. Precise.",
+    alt: "Cannabis vaporizer and 510-thread cartridge",
   },
   {
-    image: IMG.macrame,
-    eyebrow: "Woven Textile Art",
-    title: "Texture That Tells a Story",
-    alt: "Handwoven macrame textile art piece",
+    image: IMG.gummies2,
+    eyebrow: "Edibles & Beverages",
+    title: "Precisely Dosed, Deliciously Made",
+    alt: "Cannabis-infused gummies",
   },
 ];
 
@@ -83,8 +83,8 @@ export function Hero() {
             {slide.title}
           </h1>
           <p className="mt-6 max-w-md text-balance text-base text-white/85 sm:text-lg">
-            Discover one-of-a-kind candles, pottery, woodwork, and textile art from independent artisans —
-            thoughtfully made, beautifully imperfect.
+            Premium flower, pre-rolls, vapes, edibles, and concentrates from trusted BC brands —
+            curated cannabis, delivered with care.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Button size="lg" variant="warm" asChild>

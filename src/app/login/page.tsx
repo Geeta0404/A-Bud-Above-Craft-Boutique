@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
 import { LoginForm } from "@/components/auth/LoginForm";
 
@@ -15,7 +16,9 @@ export default function LoginPage() {
       <p className="mt-2 text-muted-foreground">Sign in to track orders, manage your wishlist, and more.</p>
 
       <div className="mt-10">
-        <LoginForm />
+        <Suspense fallback={null}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );

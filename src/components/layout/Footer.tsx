@@ -2,11 +2,30 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { AtSign, Globe, Mail, MapPin, Phone, ArrowRight } from "lucide-react";
-import { FOOTER_LINKS, SITE_NAME } from "@/lib/constants";
+import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
+import { FOOTER_LINKS, SITE_NAME, STORE_INFO } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+
+// lucide-react no longer ships brand/logo icons, so these are hand-drawn to match its stroke style.
+function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M15 4h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h2.5l.5-4h-3V8a1 1 0 0 1 1-1h2Z" />
+    </svg>
+  );
+}
 
 function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
@@ -47,15 +66,15 @@ export function Footer() {
             <ul className="mt-4 space-y-3 text-sm text-secondary-foreground/75">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-warm" />
-                123 Seaport Lane, Halifax, NS
+                {STORE_INFO.address}
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 shrink-0 text-warm" />
-                1-800-555-0123
+                {STORE_INFO.phone}
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 shrink-0 text-warm" />
-                hello@abudabovecraftboutique.ca
+                {STORE_INFO.email}
               </li>
             </ul>
             <Link
@@ -88,18 +107,22 @@ export function Footer() {
             </form>
             <div className="mt-5 flex gap-3">
               <a
-                href="#"
+                href="https://instagram.com/abudabovecraftboutique"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="rounded-full bg-secondary-foreground/10 p-2 transition-colors hover:bg-warm hover:text-warm-foreground"
               >
-                <AtSign className="h-4 w-4" />
+                <InstagramIcon className="h-4 w-4" />
               </a>
               <a
-                href="#"
+                href="https://facebook.com/abudabovecraftboutique"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="rounded-full bg-secondary-foreground/10 p-2 transition-colors hover:bg-warm hover:text-warm-foreground"
               >
-                <Globe className="h-4 w-4" />
+                <FacebookIcon className="h-4 w-4" />
               </a>
             </div>
           </div>

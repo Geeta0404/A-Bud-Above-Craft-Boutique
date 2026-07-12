@@ -1,16 +1,40 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { ShopClient } from "@/components/shop/ShopClient";
+import Link from "next/link";
+import { PromoCarousel } from "@/components/shop/PromoCarousel";
+import { CategoryRail } from "@/components/shop/CategoryRail";
+import { ProductRail } from "@/components/shop/ProductRail";
+import { Button } from "@/components/ui/button";
+import { categories } from "@/lib/data/categories";
+import { products, getBestSellers, getNewArrivals } from "@/lib/data/products";
 
 export const metadata: Metadata = {
-  title: "Shop All Handcrafted Goods",
-  description: "Browse candles, pottery, woodwork, textile art, home décor, and gifts handmade by independent artisans.",
+  title: "Shop",
+  description: "Premium flower, pre-rolls, vapes, edibles, concentrates, topicals, and beverages from trusted BC brands.",
 };
 
 export default function ShopPage() {
   return (
-    <Suspense>
-      <ShopClient />
-    </Suspense>
+    <div className="mx-auto max-w-7xl space-y-12 px-4 py-10 sm:px-6 lg:px-8">
+      <PromoCarousel />
+      <CategoryRail />
+
+      <ProductRail title="Best Sellers" products={getBestSellers(8)} viewAllHref="/shop/best-sellers" />
+      <ProductRail title="New Arrivals" products={getNewArrivals(8)} viewAllHref="/shop/new-arrivals" />
+
+      {categories.map((category) => (
+        <ProductRail
+          key={category.slug}
+          title={`Popular ${category.name}`}
+          products={products.filter((p) => p.category === category.slug)}
+          viewAllHref={`/categories/${category.slug}`}
+        />
+      ))}
+
+      <div className="flex justify-center pt-4">
+        <Button size="lg" asChild>
+          <Link href="/shop/all">Shop All Products</Link>
+        </Button>
+      </div>
+    </div>
   );
 }

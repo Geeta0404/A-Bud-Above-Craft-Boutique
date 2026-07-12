@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_TAGLINE } from "@/lib/constants";
 import { Hero } from "@/components/home/Hero";
 import { TrustBar } from "@/components/home/TrustBar";
 import { FeaturedCollections } from "@/components/home/FeaturedCollections";
@@ -10,9 +11,9 @@ import { InstagramGallery } from "@/components/home/InstagramGallery";
 import { CallToAction } from "@/components/home/CallToAction";
 
 export const metadata: Metadata = {
-  title: "Handcrafted Goods, Thoughtfully Made",
+  title: SITE_TAGLINE,
   description:
-    "Shop handcrafted candles, pottery, woodwork, textile art, and artisan gifts made by independent makers.",
+    "Shop premium flower, pre-rolls, vaporizers, edibles, concentrates, and more from trusted BC cannabis brands.",
 };
 
 export default function HomePage() {

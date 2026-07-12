@@ -25,8 +25,8 @@ export default function TermsPage() {
         <section>
           <h2 className="font-heading text-xl font-semibold">2. Products & Pricing</h2>
           <p className="mt-2 text-muted-foreground">
-            All prices are listed in CAD and are subject to change without notice. Because
-            every item is handmade, slight variations in colour, texture, and size should be expected.
+            All prices are listed in CAD and are subject to change without notice. Because cannabis is a
+            natural product, slight variations in appearance, aroma, and potency between batches should be expected.
           </p>
         </section>
         <section>

@@ -14,6 +14,9 @@ export type Review = {
   body: string;
 };
 
+export type StrainType = "Sativa" | "Indica" | "Hybrid" | "Blend";
+export type PotencyUnit = "%" | "mg";
+
 export type Product = {
   slug: string;
   name: string;
@@ -23,7 +26,7 @@ export type Product = {
   description: string;
   longDescription: string;
   images: string[];
-  artisan: string;
+  brand: string;
   rating: number;
   reviewCount: number;
   reviews: Review[];
@@ -33,7 +36,14 @@ export type Product = {
   isNew?: boolean;
   isSeasonal?: boolean;
   createdAt: string;
-  materials: string[];
+  strainType: StrainType;
+  thcMin: number;
+  thcMax: number;
+  thcUnit: PotencyUnit;
+  cbdMin: number;
+  cbdMax: number;
+  cbdUnit: PotencyUnit;
+  size: string;
 };
 
 export type Testimonial = {
@@ -81,4 +91,16 @@ export type CartItem = {
   price: number;
   image: string;
   quantity: number;
+};
+
+// Admin-managed product record, persisted in Databricks.
+export type AdminProduct = Product & {
+  id: string;
+  stockQuantity: number;
+  updatedAt: string;
+};
+
+export type AdminProductInput = Omit<AdminProduct, "id" | "createdAt" | "updatedAt" | "reviews" | "rating" | "reviewCount"> & {
+  rating?: number;
+  reviewCount?: number;
 };

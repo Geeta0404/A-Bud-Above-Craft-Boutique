@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { CartItem } from "@/lib/types";
+import { useAuthUserId } from "@/hooks/useAuthUserId";
 
 type CartContextValue = {
   items: CartItem[];
@@ -11,29 +12,36 @@ type CartContextValue = {
   clearCart: () => void;
   subtotal: number;
   itemCount: number;
+  isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
+  setCartOpen: (open: boolean) => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
-const STORAGE_KEY = "aba-cart";
+const storageKeyFor = (userId: string) => `aba-cart-${userId}`;
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const userId = useAuthUserId();
   const [items, setItems] = useState<CartItem[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [isCartOpen, setCartOpen] = useState(false);
 
+  // Re-hydrate from this account's own storage bucket whenever the signed-in user changes.
   useEffect(() => {
+    setHydrated(false);
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydration from localStorage on mount
-      if (raw) setItems(JSON.parse(raw));
+      const raw = localStorage.getItem(storageKeyFor(userId));
+      setItems(raw ? JSON.parse(raw) : []);
     } catch {
-      // ignore corrupt storage
+      setItems([]);
     }
     setHydrated(true);
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
-    if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  }, [items, hydrated]);
+    if (hydrated) localStorage.setItem(storageKeyFor(userId), JSON.stringify(items));
+  }, [items, hydrated, userId]);
 
   const addItem: CartContextValue["addItem"] = (item, quantity = 1) => {
     setItems((prev) => {
@@ -45,6 +53,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { ...item, quantity }];
     });
+    setCartOpen(true);
   };
 
   const removeItem = (slug: string) => setItems((prev) => prev.filter((i) => i.slug !== slug));
@@ -61,7 +70,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, subtotal, itemCount }}
+      value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        subtotal,
+        itemCount,
+        isCartOpen,
+        openCart: () => setCartOpen(true),
+        closeCart: () => setCartOpen(false),
+        setCartOpen,
+      }}
     >
       {children}
     </CartContext.Provider>

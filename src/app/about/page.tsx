@@ -5,13 +5,13 @@ import { IMG } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn about A Bud Above Craft Boutique and the independent artisans behind every handcrafted piece.",
+  description: "Learn about A Bud Above Craft Boutique and our commitment to curated, quality cannabis.",
 };
 
 const values = [
-  { title: "Handmade, Always", body: "Every product is made by hand by an independent artisan or small studio — never mass produced." },
-  { title: "Independently Made", body: "We partner exclusively with small studios and independent makers, supporting local craft economies." },
-  { title: "Slow & Sustainable", body: "We favour natural materials, small batches, and packaging that's kind to the planet." },
+  { title: "Curated, Always", body: "Every product is hand-selected and tested for quality — we never carry something just to fill a shelf." },
+  { title: "Trusted BC Brands", body: "We partner exclusively with licensed BC growers and producers, supporting the local cannabis economy." },
+  { title: "Care in Every Order", body: "From discreet packaging to knowledgeable staff, we treat every order like it's for a friend." },
 ];
 
 export default function AboutPage() {
@@ -20,14 +20,15 @@ export default function AboutPage() {
       <PageBreadcrumbs items={[{ label: "About Us" }]} />
       <h1 className="font-heading text-3xl font-semibold sm:text-4xl">About A Bud Above</h1>
       <p className="mt-4 max-w-2xl text-muted-foreground">
-        We started A Bud Above Craft Boutique to give independent artisans a beautiful home online — a place
-        where handmade candles, pottery, woodwork, and textile art could find their way into more homes.
+        We started A Bud Above Craft Boutique to give BC&rsquo;s independent cannabis growers and producers a
+        beautiful home online — a place where premium flower, pre-rolls, vapes, and edibles could find their way
+        to more people, backed by real product knowledge.
       </p>
 
       <div className="relative mt-8 aspect-[16/7] overflow-hidden rounded-2xl">
         <Image
-          src={IMG.woodworkers}
-          alt="Artisan working in a craft studio"
+          src={IMG.flowerBud4}
+          alt="Close-up of premium cannabis flower"
           fill
           sizes="100vw"
           className="object-cover"

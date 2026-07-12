@@ -5,14 +5,14 @@ import { IMG } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Our Story",
-  description: "From a single farmers market table to a national platform for independent artisans — this is our story.",
+  description: "From a single Granville Street storefront to a trusted home for BC cannabis — this is our story.",
 };
 
 const milestones = [
-  { year: "2019", text: "Founded as a single table at the Halifax Seaport Farmers' Market, selling hand-poured candles." },
-  { year: "2021", text: "Partnered with our first five artisan studios and launched our online boutique." },
-  { year: "2023", text: "Grew to over 30 independent makers and shipped to every province and territory." },
-  { year: "2025", text: "Opened our first in-person workshop space, hosting hands-on classes with our artisans." },
+  { year: "2019", text: "Founded as a single storefront on Granville Street in Vancouver, carrying a handful of trusted BC growers." },
+  { year: "2021", text: "Partnered with our first five craft cannabis brands and launched online ordering." },
+  { year: "2023", text: "Grew to carry over 30 trusted BC brands and added same-day delivery across Metro Vancouver." },
+  { year: "2025", text: "Opened our in-store product counter, pairing every visit with real cannabis knowledge." },
 ];
 
 export default function OurStoryPage() {
@@ -21,15 +21,15 @@ export default function OurStoryPage() {
       <PageBreadcrumbs items={[{ label: "Our Story" }]} />
       <h1 className="font-heading text-3xl font-semibold sm:text-4xl">Our Story</h1>
       <p className="mt-4 text-muted-foreground">
-        A Bud Above began with a simple idea: handmade things carry more warmth than anything mass-produced ever
-        could. What started as a single candle stand has grown into a curated home for dozens of independent
-        artisans — but our mission hasn&rsquo;t changed.
+        A Bud Above began with a simple idea: cannabis is better when it&rsquo;s curated, not just stocked. What
+        started as a single Vancouver storefront has grown into a trusted home for dozens of BC growers and
+        producers — but our mission hasn&rsquo;t changed.
       </p>
 
       <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
         <Image
-          src={IMG.wreath}
-          alt="Seasonal handmade goods on display"
+          src={IMG.flowerBud1}
+          alt="Premium cannabis flower on display"
           fill
           sizes="100vw"
           className="object-cover"

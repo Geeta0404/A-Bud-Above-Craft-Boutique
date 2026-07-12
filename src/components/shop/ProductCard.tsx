@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { Heart, Eye } from "lucide-react";
 import type { Product } from "@/lib/types";
-import { CAD } from "@/lib/constants";
+import { CAD, discountPercent } from "@/lib/constants";
+import { formatCbd, formatThc, hasPotencyInfo } from "@/lib/cannabis";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RatingStars } from "@/components/shared/RatingStars";
@@ -44,7 +45,7 @@ export function ProductCard({ product }: { product: Product }) {
           )}
           {product.compareAtPrice && (
             <Badge variant="destructive" className="shadow-sm">
-              Sale
+              Save {discountPercent(product.price, product.compareAtPrice)}%
             </Badge>
           )}
         </div>
@@ -72,10 +73,18 @@ export function ProductCard({ product }: { product: Product }) {
       </button>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <p className="text-xs uppercase tracking-wide text-muted-foreground">{product.artisan}</p>
+        <p className="text-xs uppercase tracking-wide text-muted-foreground">{product.brand}</p>
         <Link href={`/shop/${product.slug}`} className="font-heading text-base font-medium leading-snug hover:text-primary">
           {product.name}
         </Link>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <Badge variant="outline">{product.strainType}</Badge>
+          {hasPotencyInfo(product) && (
+            <span className="text-xs text-muted-foreground">
+              {formatThc(product)} · {formatCbd(product)}
+            </span>
+          )}
+        </div>
         <RatingStars rating={product.rating} />
         <div className="mt-auto flex items-center justify-between pt-2">
           <div className="flex items-baseline gap-2">

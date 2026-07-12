@@ -6,7 +6,7 @@ import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
 
 export const metadata: Metadata = {
   title: "Shop by Category",
-  description: "Browse our handcrafted collections by category — candles, pottery, woodwork, textile art, home décor, and gifts.",
+  description: "Browse our full range by category — flower, pre-rolls, vaporizers, edibles, concentrates, topicals, beverages, and accessories.",
 };
 
 export default function CategoriesPage() {
@@ -15,7 +15,7 @@ export default function CategoriesPage() {
       <PageBreadcrumbs items={[{ label: "Categories" }]} />
       <h1 className="font-heading text-3xl font-semibold">Shop by Category</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
-        Every collection is handmade by an independent artisan or small studio.
+        Every category is stocked with lab-tested products from trusted BC brands.
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
