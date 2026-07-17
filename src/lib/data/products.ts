@@ -1,942 +1,105 @@
-import type { Product, Review } from "@/lib/types";
-import { IMG } from "@/lib/images";
-import { slugify } from "@/lib/utils";
+import type { Product, Review, StrainType } from "@/lib/types";
+import { ProductRepository } from "@/repositories/ProductRepository";
+import { BrandRepository } from "@/repositories/BrandRepository";
+import { ReviewRepository } from "@/repositories/ReviewRepository";
+import type { Product as DbProduct } from "@/types/catalog";
 
-function hashSeed(seed: string): number {
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  return h;
+function mapReview(review: Awaited<ReturnType<typeof ReviewRepository.listByProduct>>["items"][number]): Review {
+  return {
+    id: String(review.id),
+    author: review.authorName ?? "Anonymous",
+    rating: review.rating,
+    date: review.createdAt.slice(0, 10),
+    title: review.title ?? "",
+    body: review.body ?? "",
+  };
 }
 
-const REVIEW_AUTHORS = [
-  "Sarah M.", "James T.", "Priya K.", "Chloe D.", "Mark R.", "Emily W.",
-  "Devon K.", "Aaliyah S.", "Ben O.", "Nadia F.", "Tyler B.", "Grace L.",
-  "Owen R.", "Mei C.", "Jordan P.", "Ravi N.",
-];
-
-const REVIEW_TITLES = [
-  "Great quality", "Better than expected", "Smooth experience", "Will buy again",
-  "Exactly as described", "Solid pickup every time", "New favourite", "Worth the price",
-];
-
-const REVIEW_BODIES = [
-  "Consistent quality and fast pickup — this has become a regular order for us.",
-  "Exactly what I was hoping for. Smell and effects matched the description perfectly.",
-  "Ordered for delivery and it showed up quick, discreetly packaged. Will order again.",
-  "Good value for the potency, and staff answered my dosing questions before I bought.",
-  "Nice, smooth experience with no surprises. Now part of my regular rotation.",
-  "Picked this up on a staff recommendation and they were spot on.",
-  "Effects came on exactly as expected — reliably good, batch after batch.",
-  "Packaging keeps everything fresh, and the batch testing info on the label is a nice touch.",
-  "Grabbed this for a weekend trip and it was perfect — easy to use and consistent.",
-  "A bit pricier than others I've tried, but the quality difference is noticeable.",
-];
-
-function reviews(seed: string, count: number): Review[] {
-  const offset = hashSeed(seed);
-  return Array.from({ length: count }, (_, i) => {
-    const n = offset + i;
-    const day = String((n * 7) % 28 + 1).padStart(2, "0");
-    const month = String((n % 12) + 1).padStart(2, "0");
-    const rating = n % 10 === 0 ? 3 : 4 + (n % 2);
-    return {
-      id: `${seed}-${i}`,
-      author: REVIEW_AUTHORS[n % REVIEW_AUTHORS.length],
-      rating,
-      date: `2025-${month}-${day}`,
-      title: REVIEW_TITLES[n % REVIEW_TITLES.length],
-      body: REVIEW_BODIES[n % REVIEW_BODIES.length],
-    };
-  });
+async function mapProduct(p: DbProduct, reviews: Review[] = []): Promise<Product> {
+  return {
+    slug: p.slug,
+    name: p.name,
+    category: p.categorySlug ?? "",
+    price: p.price,
+    compareAtPrice: p.compareAtPrice ?? undefined,
+    description: p.description ?? "",
+    longDescription: p.longDescription ?? "",
+    images: (p.images ?? []).map((img) => img.imageUrl),
+    brand: p.brandName ?? "",
+    rating: p.rating,
+    reviewCount: p.reviewCount,
+    reviews,
+    tags: p.tags,
+    inStock: p.stockQuantity > 0,
+    isBestSeller: p.isBestSeller,
+    isNew: p.isNew,
+    isSeasonal: p.isSeasonal,
+    createdAt: p.createdAt.slice(0, 10),
+    strainType: (p.strainType ?? "Blend") as StrainType,
+    thcMin: p.thcMin ?? 0,
+    thcMax: p.thcMax ?? 0,
+    thcUnit: p.thcUnit ?? "%",
+    cbdMin: p.cbdMin ?? 0,
+    cbdMax: p.cbdMax ?? 0,
+    cbdUnit: p.cbdUnit ?? "%",
+    size: p.size ?? "",
+  };
 }
 
-export const products: Product[] = [
-  // Flower
-  {
-    slug: "crystal-dream-smalls",
-    name: "Crystal Dream Smalls",
-    category: "flower",
-    price: 24.99,
-    description: "Sativa-dominant smalls with a sweet, gassy nose.",
-    longDescription:
-      "A sativa-dominant cross bursting with citrus and diesel notes. Smalls are the same bud as full-size flower, just smaller — great value without sacrificing potency.",
-    images: [IMG.flowerBud1, IMG.flowerBud2],
-    brand: "BC Smalls",
-    rating: 4.6,
-    reviewCount: 9,
-    reviews: reviews("crystal-dream", 9),
-    tags: ["flower", "sativa", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-10-04",
-    strainType: "Sativa",
-    thcMin: 28,
-    thcMax: 32,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 2,
-    cbdUnit: "%",
-    size: "3.5g",
-  },
-  {
-    slug: "dark-moon-smalls",
-    name: "Dark Moon Smalls",
-    category: "flower",
-    price: 24.99,
-    description: "Indica-dominant smalls with deep berry and fuel notes.",
-    longDescription:
-      "A dense, dark indica-dominant cross with notes of berry and diesel. Hand-trimmed smalls packed in a resealable pouch for freshness.",
-    images: [IMG.flowerBud3, IMG.flowerBud4],
-    brand: "BC Smalls",
-    rating: 4.5,
-    reviewCount: 7,
-    reviews: reviews("dark-moon", 7),
-    tags: ["flower", "indica"],
-    inStock: true,
-    createdAt: "2025-11-18",
-    strainType: "Indica",
-    thcMin: 26,
-    thcMax: 30,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 2,
-    cbdUnit: "%",
-    size: "3.5g",
-  },
-  {
-    slug: "facade",
-    name: "Facade",
-    category: "flower",
-    price: 39.99,
-    compareAtPrice: 49.99,
-    description: "A balanced hybrid with dense, frosty nugs.",
-    longDescription:
-      "A well-balanced hybrid grown indoors and cured slow for maximum terpene retention. Dense, trichome-heavy nugs with an earthy pine finish.",
-    images: [IMG.flowerBud5, IMG.flowerBud1],
-    brand: "Good Supply",
-    rating: 4.7,
-    reviewCount: 14,
-    reviews: reviews("facade", 14),
-    tags: ["flower", "hybrid", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-08-22",
-    strainType: "Hybrid",
-    thcMin: 24,
-    thcMax: 30,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 1,
-    cbdUnit: "%",
-    size: "7g",
-  },
-  {
-    slug: "yeti-og",
-    name: "Yeti OG",
-    category: "flower",
-    price: 44.99,
-    description: "A heavy-hitting indica for evening wind-down.",
-    longDescription:
-      "A potent indica cross with a classic OG fuel-and-pine profile. Packed at peak freshness in a resealable mylar pouch.",
-    images: [IMG.flowerBud2, IMG.flowerBud5],
-    brand: "Happy Hour",
-    rating: 4.8,
-    reviewCount: 11,
-    reviews: reviews("yeti-og", 11),
-    tags: ["flower", "indica", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-05-02",
-    strainType: "Indica",
-    thcMin: 24,
-    thcMax: 28,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 2,
-    cbdUnit: "%",
-    size: "7g",
-  },
-
-  // Pre-Rolls
-  {
-    slug: "sativa-indica-variety-pack",
-    name: "Sativa - Indica Variety Pack",
-    category: "pre-rolls",
-    price: 11.99,
-    description: "Two pre-rolls, one sativa and one indica, for either mood.",
-    longDescription:
-      "A grab-and-go pack with one sativa and one indica pre-roll, ground and cone-rolled by machine for a consistent, even burn.",
-    images: [IMG.preRoll1, IMG.preRoll2],
-    brand: "Thumbs Up",
-    rating: 4.4,
-    reviewCount: 10,
-    reviews: reviews("variety-pack", 10),
-    tags: ["pre-roll", "hybrid", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-09-14",
-    strainType: "Hybrid",
-    thcMin: 23,
-    thcMax: 32,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 1,
-    cbdUnit: "%",
-    size: "2 x 1g",
-  },
-  {
-    slug: "fully-charged-pink-lemonade-pre-roll",
-    name: "Fully Charged Pink Lemonade Infused Pre-Roll",
-    category: "pre-rolls",
-    price: 11.99,
-    description: "A single infused pre-roll dipped for extra potency.",
-    longDescription:
-      "Flower infused with live resin and rolled with a kief coating for a stronger, longer-lasting effect. Sweet lemonade terpene profile.",
-    images: [IMG.preRoll3, IMG.preRoll4],
-    brand: "Spinach",
-    rating: 4.6,
-    reviewCount: 8,
-    reviews: reviews("fully-charged-pink-lemonade", 8),
-    tags: ["pre-roll", "sativa", "infused"],
-    inStock: true,
-    createdAt: "2026-01-09",
-    strainType: "Sativa",
-    thcMin: 35,
-    thcMax: 40,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 8,
-    cbdUnit: "%",
-    size: "1 x 0.7g",
-  },
-  {
-    slug: "legacy-blunt-3-pack",
-    name: "Legacy Blunt 3-Pack",
-    category: "pre-rolls",
-    price: 18.99,
-    compareAtPrice: 23.99,
-    description: "Classic tobacco-leaf-wrapped blunts, three to a pack.",
-    longDescription:
-      "A throwback to the classic legacy market look and feel — three hand-finished blunts wrapped and ready to go.",
-    images: [IMG.preRoll2, IMG.preRoll1],
-    brand: "Good Times Supplied by 1964",
-    rating: 4.5,
-    reviewCount: 6,
-    reviews: reviews("legacy-blunt", 6),
-    tags: ["pre-roll", "hybrid", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-06-01",
-    strainType: "Hybrid",
-    thcMin: 20,
-    thcMax: 25,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 1,
-    cbdUnit: "%",
-    size: "3 x 1g",
-  },
-  {
-    slug: "morning-glory-joint-5-pack",
-    name: "Morning Glory Joint 5-Pack",
-    category: "pre-rolls",
-    price: 22.99,
-    description: "Five bright, citrus-forward sativa joints.",
-    longDescription:
-      "A five-pack of straight-cone joints rolled with bright, citrus-forward sativa smalls — a reliable daytime option.",
-    images: [IMG.preRoll4, IMG.preRoll3],
-    brand: "BC Smalls",
-    rating: 4.3,
-    reviewCount: 5,
-    reviews: reviews("morning-glory", 5),
-    tags: ["pre-roll", "sativa"],
-    inStock: true,
-    createdAt: "2025-07-30",
-    strainType: "Sativa",
-    thcMin: 22,
-    thcMax: 26,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 2,
-    cbdUnit: "%",
-    size: "5 x 0.5g",
-  },
-
-  // Vaporizers
-  {
-    slug: "pink-lemonade-liquid-diamond-vape",
-    name: "Pink Lemonade Liquid Diamond Disposable Vape",
-    category: "vaporizers",
-    price: 44.99,
-    description: "A liquid-diamond disposable with a tart lemonade profile.",
-    longDescription:
-      "THCA diamonds suspended in live resin sauce for maximum potency and flavour, in an all-in-one rechargeable disposable.",
-    images: [IMG.vapePen1, IMG.vapePen2],
-    brand: "General Admission",
-    rating: 4.7,
-    reviewCount: 16,
-    reviews: reviews("pink-lemonade-vape", 16),
-    tags: ["vape", "sativa", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-09-28",
-    strainType: "Sativa",
-    thcMin: 92,
-    thcMax: 96,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 2,
-    cbdUnit: "%",
-    size: "1g",
-  },
-  {
-    slug: "blue-dream-liquid-diamond-vape",
-    name: "Blue Dream Liquid Diamond Disposable Vape",
-    category: "vaporizers",
-    price: 44.99,
-    compareAtPrice: 54.99,
-    description: "A liquid-diamond disposable with a sweet berry profile.",
-    longDescription:
-      "The classic Blue Dream terpene profile in a liquid-diamond disposable format — smooth draw, no charging required.",
-    images: [IMG.vapePen3, IMG.vapePen4],
-    brand: "General Admission",
-    rating: 4.6,
-    reviewCount: 9,
-    reviews: reviews("blue-dream-vape", 9),
-    tags: ["vape", "sativa"],
-    inStock: true,
-    createdAt: "2025-12-05",
-    strainType: "Sativa",
-    thcMin: 90,
-    thcMax: 94,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 2,
-    cbdUnit: "%",
-    size: "1g",
-  },
-  {
-    slug: "mango-kush-510-cartridge",
-    name: "Mango Kush 510 Cartridge",
-    category: "vaporizers",
-    price: 32.99,
-    description: "A refillable-battery-compatible 510-thread cartridge.",
-    longDescription:
-      "Distillate cartridge with added terpenes for a tropical mango-kush flavour. Compatible with any standard 510-thread battery.",
-    images: [IMG.vapePen2, IMG.vapePen1],
-    brand: "Happy Hour",
-    rating: 4.5,
-    reviewCount: 6,
-    reviews: reviews("mango-kush-cart", 6),
-    tags: ["vape", "hybrid", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-04-11",
-    strainType: "Hybrid",
-    thcMin: 85,
-    thcMax: 89,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 1,
-    cbdUnit: "%",
-    size: "0.5g",
-  },
-  {
-    slug: "midnight-indica-disposable-vape",
-    name: "Midnight Indica Disposable Vape",
-    category: "vaporizers",
-    price: 42.99,
-    description: "A relaxing indica disposable for evening use.",
-    longDescription:
-      "A deep, earthy indica blend in an all-in-one disposable — draw-activated with no buttons to fuss with.",
-    images: [IMG.vapePen4, IMG.vapePen3],
-    brand: "Spinach",
-    rating: 4.6,
-    reviewCount: 7,
-    reviews: reviews("midnight-indica-vape", 7),
-    tags: ["vape", "indica"],
-    inStock: true,
-    createdAt: "2025-10-30",
-    strainType: "Indica",
-    thcMin: 88,
-    thcMax: 92,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 3,
-    cbdUnit: "%",
-    size: "1g",
-  },
-
-  // Edibles
-  {
-    slug: "fully-blasted-peach-orange-gummies",
-    name: "Fully Blasted Peach Orange 1:1 THC:CBD Gummies (Multi-pack of 10)",
-    category: "edibles",
-    price: 19.99,
-    description: "A balanced 1:1 THC:CBD gummy in peach and orange flavours.",
-    longDescription:
-      "Ten precisely dosed gummies split between peach and orange flavours, formulated with an even 1:1 ratio of THC to CBD.",
-    images: [IMG.gummies1, IMG.gummies2],
-    brand: "SOURZ by Spinach",
-    rating: 4.7,
-    reviewCount: 13,
-    reviews: reviews("peach-orange-gummies", 13),
-    tags: ["edible", "hybrid", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-08-15",
-    strainType: "Hybrid",
-    thcMin: 100,
-    thcMax: 100,
-    thcUnit: "mg",
-    cbdMin: 100,
-    cbdMax: 100,
-    cbdUnit: "mg",
-    size: "10packs",
-  },
-  {
-    slug: "fully-blasted-pink-lemonade-gummies",
-    name: "Fully Blasted Pink Lemonade Gummies (Multi-pack of 10)",
-    category: "edibles",
-    price: 19.99,
-    compareAtPrice: 24.99,
-    description: "Ten tart pink lemonade gummies, sativa-leaning.",
-    longDescription:
-      "A tart, sativa-leaning gummy in pink lemonade flavour — ten pieces per pack, precisely dosed for consistency.",
-    images: [IMG.gummies3, IMG.gummies4],
-    brand: "SOURZ by Spinach",
-    rating: 4.6,
-    reviewCount: 10,
-    reviews: reviews("pink-lemonade-gummies", 10),
-    tags: ["edible", "sativa"],
-    inStock: true,
-    createdAt: "2025-11-01",
-    strainType: "Sativa",
-    thcMin: 100,
-    thcMax: 100,
-    thcUnit: "mg",
-    cbdMin: 0,
-    cbdMax: 10,
-    cbdUnit: "mg",
-    size: "10packs",
-  },
-  {
-    slug: "fully-blasted-blue-raspberry-watermelon-gummies",
-    name: "Fully Blasted Blue Raspberry Watermelon Indica Gummies (Multi-pack of 10)",
-    category: "edibles",
-    price: 19.99,
-    description: "Ten indica gummies in blue raspberry watermelon flavour.",
-    longDescription:
-      "A relaxing indica gummy blending blue raspberry and watermelon flavours — ten pieces per pack.",
-    images: [IMG.gummies2, IMG.gummies1],
-    brand: "SOURZ by Spinach",
-    rating: 4.5,
-    reviewCount: 8,
-    reviews: reviews("blue-raspberry-gummies", 8),
-    tags: ["edible", "indica"],
-    inStock: true,
-    createdAt: "2026-02-14",
-    strainType: "Indica",
-    thcMin: 100,
-    thcMax: 100,
-    thcUnit: "mg",
-    cbdMin: 0,
-    cbdMax: 10,
-    cbdUnit: "mg",
-    size: "10packs",
-  },
-  {
-    slug: "dark-chocolate-espresso-bites",
-    name: "Dark Chocolate Espresso Bites",
-    category: "edibles",
-    price: 16.99,
-    description: "Nine dark chocolate bites infused with real espresso.",
-    longDescription:
-      "Rich dark chocolate infused with real espresso for a mild energizing lift alongside the effects — nine pieces per pack.",
-    images: [IMG.gummies4, IMG.gummies3],
-    brand: "Thumbs Up",
-    rating: 4.4,
-    reviewCount: 4,
-    reviews: reviews("espresso-bites", 4),
-    tags: ["edible", "hybrid", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-06-20",
-    strainType: "Hybrid",
-    thcMin: 90,
-    thcMax: 90,
-    thcUnit: "mg",
-    cbdMin: 0,
-    cbdMax: 0,
-    cbdUnit: "mg",
-    size: "9pieces",
-  },
-
-  // Concentrates
-  {
-    slug: "blue-dream-live-resin",
-    name: "Blue Dream Live Resin",
-    category: "concentrates",
-    price: 54.99,
-    description: "Flash-frozen live resin with bright, fruity terpenes.",
-    longDescription:
-      "Extracted from flash-frozen Blue Dream flower to preserve the full terpene profile — bright, fruity, and potent.",
-    images: [IMG.concentrate1, IMG.concentrate2],
-    brand: "Happy Hour",
-    rating: 4.8,
-    reviewCount: 9,
-    reviews: reviews("blue-dream-resin", 9),
-    tags: ["concentrate", "sativa", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-09-05",
-    strainType: "Sativa",
-    thcMin: 78,
-    thcMax: 82,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 1,
-    cbdUnit: "%",
-    size: "1g",
-  },
-  {
-    slug: "kush-mints-shatter",
-    name: "Kush Mints Shatter",
-    category: "concentrates",
-    price: 49.99,
-    compareAtPrice: 59.99,
-    description: "Glass-like shatter with a minty, gassy finish.",
-    longDescription:
-      "Solvent-extracted and purged to a glass-like consistency, with the classic minty-gas profile of Kush Mints.",
-    images: [IMG.concentrate3, IMG.concentrate4],
-    brand: "Good Supply",
-    rating: 4.6,
-    reviewCount: 5,
-    reviews: reviews("kush-mints-shatter", 5),
-    tags: ["concentrate", "hybrid"],
-    inStock: true,
-    createdAt: "2025-12-22",
-    strainType: "Hybrid",
-    thcMin: 72,
-    thcMax: 76,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 1,
-    cbdUnit: "%",
-    size: "1g",
-  },
-  {
-    slug: "ice-cream-cake-rosin",
-    name: "Ice Cream Cake Rosin",
-    category: "concentrates",
-    price: 59.99,
-    description: "Solventless rosin pressed from premium indica flower.",
-    longDescription:
-      "Cold-pressed with no solvents, preserving a rich, creamy terpene profile straight from premium Ice Cream Cake flower.",
-    images: [IMG.concentrate2, IMG.concentrate1],
-    brand: "General Admission",
-    rating: 4.9,
-    reviewCount: 6,
-    reviews: reviews("ice-cream-cake-rosin", 6),
-    tags: ["concentrate", "indica", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-05-18",
-    strainType: "Indica",
-    thcMin: 68,
-    thcMax: 74,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 2,
-    cbdUnit: "%",
-    size: "1g",
-  },
-  {
-    slug: "diamonds-and-sauce",
-    name: "Diamonds & Sauce",
-    category: "concentrates",
-    price: 57.99,
-    description: "THCA diamonds suspended in a terpene-rich sauce.",
-    longDescription:
-      "A high-potency concentrate combining THCA diamonds with a terpene-rich sauce for both power and flavour.",
-    images: [IMG.concentrate4, IMG.concentrate3],
-    brand: "Spinach",
-    rating: 4.7,
-    reviewCount: 4,
-    reviews: reviews("diamonds-sauce", 4),
-    tags: ["concentrate", "hybrid"],
-    inStock: true,
-    createdAt: "2026-01-27",
-    strainType: "Hybrid",
-    thcMin: 80,
-    thcMax: 85,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 1,
-    cbdUnit: "%",
-    size: "1g",
-  },
-
-  // Topicals
-  {
-    slug: "cbd-extra-strength-relief-stick",
-    name: "CBD Extra Strength Relief Stick",
-    category: "topicals",
-    price: 34.99,
-    description: "A non-intoxicating solid balm stick for targeted relief.",
-    longDescription:
-      "A twist-up solid balm stick with extra-strength CBD, formulated for targeted relief without any intoxicating effects.",
-    images: [IMG.topical1, IMG.topical2],
-    brand: "Wildflower",
-    rating: 4.7,
-    reviewCount: 11,
-    reviews: reviews("cbd-relief-stick", 11),
-    tags: ["topical", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-09-10",
-    strainType: "Blend",
-    thcMin: 0,
-    thcMax: 0,
-    thcUnit: "mg",
-    cbdMin: 900,
-    cbdMax: 1000,
-    cbdUnit: "mg",
-    size: "60g",
-  },
-  {
-    slug: "cooling-relief-roll-on",
-    name: "Cooling Relief Roll-On",
-    category: "topicals",
-    price: 28.99,
-    compareAtPrice: 34.99,
-    description: "A fast-absorbing roll-on with a cooling menthol finish.",
-    longDescription:
-      "A fast-absorbing CBD roll-on with menthol for a cooling sensation, ideal for sore muscles and joints.",
-    images: [IMG.topical3, IMG.topical4],
-    brand: "Wildflower",
-    rating: 4.5,
-    reviewCount: 6,
-    reviews: reviews("cooling-roll-on", 6),
-    tags: ["topical"],
-    inStock: true,
-    createdAt: "2025-11-27",
-    strainType: "Blend",
-    thcMin: 0,
-    thcMax: 0,
-    thcUnit: "mg",
-    cbdMin: 500,
-    cbdMax: 500,
-    cbdUnit: "mg",
-    size: "50mL",
-  },
-  {
-    slug: "warming-muscle-balm",
-    name: "Warming Muscle Balm",
-    category: "topicals",
-    price: 16.99,
-    description: "A warming THC/CBD balm for post-activity recovery.",
-    longDescription:
-      "A warming balm blending THC and CBD for deep, targeted relief after a long day or workout.",
-    images: [IMG.topical2, IMG.topical1],
-    brand: "Island Therapeutics",
-    rating: 4.4,
-    reviewCount: 5,
-    reviews: reviews("warming-balm", 5),
-    tags: ["topical", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-03-08",
-    strainType: "Blend",
-    thcMin: 50,
-    thcMax: 50,
-    thcUnit: "mg",
-    cbdMin: 200,
-    cbdMax: 200,
-    cbdUnit: "mg",
-    size: "125g",
-  },
-  {
-    slug: "calming-body-lotion",
-    name: "Calming Body Lotion",
-    category: "topicals",
-    price: 24.99,
-    description: "A lightweight, fast-absorbing daily body lotion with CBD.",
-    longDescription:
-      "A lightweight daily lotion infused with CBD for everyday skin care with a calming effect.",
-    images: [IMG.topical4, IMG.topical3],
-    brand: "Island Therapeutics",
-    rating: 4.6,
-    reviewCount: 7,
-    reviews: reviews("calming-lotion", 7),
-    tags: ["topical"],
-    inStock: true,
-    createdAt: "2025-08-02",
-    strainType: "Blend",
-    thcMin: 0,
-    thcMax: 0,
-    thcUnit: "mg",
-    cbdMin: 300,
-    cbdMax: 300,
-    cbdUnit: "mg",
-    size: "100mL",
-  },
-
-  // Beverages
-  {
-    slug: "pacific-island-punch",
-    name: "Pacific Island Punch",
-    category: "beverages",
-    price: 9.99,
-    description: "A tropical-punch flavoured THC:CBD beverage.",
-    longDescription:
-      "A refreshing, tropical-punch flavoured beverage with a balanced dose of THC and CBD — fast-acting and low-calorie.",
-    images: [IMG.beverage1, IMG.beverage2],
-    brand: "Sweet Justice",
-    rating: 4.5,
-    reviewCount: 10,
-    reviews: reviews("pacific-island-punch", 10),
-    tags: ["beverage", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-10-12",
-    strainType: "Blend",
-    thcMin: 10,
-    thcMax: 10,
-    thcUnit: "mg",
-    cbdMin: 5,
-    cbdMax: 5,
-    cbdUnit: "mg",
-    size: "1 x 355mL",
-  },
-  {
-    slug: "elderflower-fizz",
-    name: "Elderflower Fizz",
-    category: "beverages",
-    price: 9.99,
-    compareAtPrice: 12.99,
-    description: "A light, floral sparkling THC beverage.",
-    longDescription:
-      "A crisp, floral elderflower soda infused with THC for a light, social drinking experience.",
-    images: [IMG.beverage3, IMG.beverage4],
-    brand: "Sweet Justice",
-    rating: 4.4,
-    reviewCount: 6,
-    reviews: reviews("elderflower-fizz", 6),
-    tags: ["beverage"],
-    inStock: true,
-    createdAt: "2025-12-30",
-    strainType: "Blend",
-    thcMin: 10,
-    thcMax: 10,
-    thcUnit: "mg",
-    cbdMin: 0,
-    cbdMax: 0,
-    cbdUnit: "mg",
-    size: "1 x 355mL",
-  },
-  {
-    slug: "cherry-lime-cooler",
-    name: "Cherry Lime Cooler",
-    category: "beverages",
-    price: 8.99,
-    description: "A bright, citrusy sativa-infused cooler.",
-    longDescription:
-      "A bright cherry-lime cooler with a light sativa dose, formulated for a quick onset and clean finish.",
-    images: [IMG.beverage2, IMG.beverage1],
-    brand: "Sweet Justice",
-    rating: 4.3,
-    reviewCount: 3,
-    reviews: reviews("cherry-lime-cooler", 3),
-    tags: ["beverage", "sativa", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-06-15",
-    strainType: "Sativa",
-    thcMin: 5,
-    thcMax: 5,
-    thcUnit: "mg",
-    cbdMin: 5,
-    cbdMax: 5,
-    cbdUnit: "mg",
-    size: "1 x 355mL",
-  },
-  {
-    slug: "ginger-chai-relaxer",
-    name: "Ginger Chai Relaxer",
-    category: "beverages",
-    price: 9.99,
-    description: "A warm, spiced indica beverage for winding down.",
-    longDescription:
-      "A warm, spiced ginger chai beverage with an indica-leaning dose, formulated to help you unwind in the evening.",
-    images: [IMG.beverage4, IMG.beverage3],
-    brand: "Sweet Justice",
-    rating: 4.6,
-    reviewCount: 5,
-    reviews: reviews("ginger-chai-relaxer", 5),
-    tags: ["beverage", "indica"],
-    inStock: true,
-    createdAt: "2025-11-09",
-    strainType: "Indica",
-    thcMin: 10,
-    thcMax: 10,
-    thcUnit: "mg",
-    cbdMin: 10,
-    cbdMax: 10,
-    cbdUnit: "mg",
-    size: "1 x 355mL",
-  },
-
-  // Accessories
-  {
-    slug: "4-piece-aluminum-grinder",
-    name: "4-Piece Aluminum Grinder",
-    category: "accessories",
-    price: 24.99,
-    description: "A durable 4-piece grinder with a kief-catching screen.",
-    longDescription:
-      "Anodized aluminum construction with sharp diamond-shaped teeth, a pollen screen, and a kief catcher.",
-    images: [IMG.accessory1, IMG.accessory2],
-    brand: "A Bud Above Essentials",
-    rating: 4.7,
-    reviewCount: 12,
-    reviews: reviews("aluminum-grinder", 12),
-    tags: ["accessory", "bestseller"],
-    inStock: true,
-    isBestSeller: true,
-    createdAt: "2025-09-19",
-    strainType: "Blend",
-    thcMin: 0,
-    thcMax: 0,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 0,
-    cbdUnit: "%",
-    size: "1 unit",
-  },
-  {
-    slug: "organic-hemp-rolling-papers",
-    name: "Organic Hemp Rolling Papers (Pack of 3)",
-    category: "accessories",
-    price: 6.99,
-    compareAtPrice: 8.99,
-    description: "Thin, slow-burning organic hemp rolling papers.",
-    longDescription:
-      "Unbleached, chlorine-free organic hemp papers that burn slow and even — three booklets per pack.",
-    images: [IMG.accessory3, IMG.accessory4],
-    brand: "A Bud Above Essentials",
-    rating: 4.5,
-    reviewCount: 8,
-    reviews: reviews("hemp-papers", 8),
-    tags: ["accessory"],
-    inStock: true,
-    createdAt: "2025-10-22",
-    strainType: "Blend",
-    thcMin: 0,
-    thcMax: 0,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 0,
-    cbdUnit: "%",
-    size: "3 packs",
-  },
-  {
-    slug: "glass-rolling-tray",
-    name: "Glass Rolling Tray",
-    category: "accessories",
-    price: 18.99,
-    description: "A tempered-glass tray for clean, easy rolling.",
-    longDescription:
-      "A tempered-glass rolling tray with raised edges to keep everything contained — easy to wipe clean.",
-    images: [IMG.accessory2, IMG.accessory3],
-    brand: "A Bud Above Essentials",
-    rating: 4.6,
-    reviewCount: 5,
-    reviews: reviews("glass-tray", 5),
-    tags: ["accessory", "new"],
-    inStock: true,
-    isNew: true,
-    createdAt: "2026-04-27",
-    strainType: "Blend",
-    thcMin: 0,
-    thcMax: 0,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 0,
-    cbdUnit: "%",
-    size: "1 unit",
-  },
-  {
-    slug: "rolling-machine-kit",
-    name: "Rolling Machine Kit",
-    category: "accessories",
-    price: 14.99,
-    description: "A handheld rolling machine with papers and tips included.",
-    longDescription:
-      "A simple handheld rolling machine that produces a consistent, evenly packed roll every time — comes with papers and tips.",
-    images: [IMG.accessory4, IMG.accessory1],
-    brand: "A Bud Above Essentials",
-    rating: 4.3,
-    reviewCount: 4,
-    reviews: reviews("rolling-machine", 4),
-    tags: ["accessory"],
-    inStock: true,
-    createdAt: "2025-12-14",
-    strainType: "Blend",
-    thcMin: 0,
-    thcMax: 0,
-    thcUnit: "%",
-    cbdMin: 0,
-    cbdMax: 0,
-    cbdUnit: "%",
-    size: "1 kit",
-  },
-];
-
-export function getProductBySlug(slug: string) {
-  return products.find((p) => p.slug === slug);
+export async function getAllProducts(): Promise<Product[]> {
+  const { items } = await ProductRepository.list({ limit: 100 });
+  return Promise.all(items.map((p) => mapProduct(p)));
 }
 
-export function getRelatedProducts(product: Product, limit = 4) {
-  return products
-    .filter((p) => p.slug !== product.slug && p.category === product.category)
-    .slice(0, limit);
+export async function getProductBySlug(slug: string): Promise<Product | undefined> {
+  const product = await ProductRepository.findBySlug(slug);
+  if (!product) return undefined;
+
+  const { items: reviewRows } = await ReviewRepository.listByProduct(product.id, 1, 50);
+  return mapProduct(product, reviewRows.map(mapReview));
 }
 
-export function getBestSellers(limit = 8) {
-  return products.filter((p) => p.isBestSeller).slice(0, limit);
+export async function getRelatedProducts(product: Product, limit = 4): Promise<Product[]> {
+  const dbProduct = await ProductRepository.findBySlug(product.slug);
+  if (!dbProduct) return [];
+  const related = await ProductRepository.related(dbProduct.id, dbProduct.categoryId, limit);
+  return Promise.all(related.map((p) => mapProduct(p)));
 }
 
-export function getNewArrivals(limit = 8) {
-  return products
-    .filter((p) => p.isNew)
-    .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt))
-    .slice(0, limit);
+export async function getBestSellers(limit = 8): Promise<Product[]> {
+  const items = await ProductRepository.bestSellers(limit);
+  return Promise.all(items.map((p) => mapProduct(p)));
 }
 
-export function getSeasonalProducts(limit = 8) {
-  return products.filter((p) => p.isSeasonal).slice(0, limit);
+export async function getNewArrivals(limit = 8): Promise<Product[]> {
+  const items = await ProductRepository.newArrivals(limit);
+  return Promise.all(items.map((p) => mapProduct(p)));
 }
 
-export type BrandSummary = { name: string; slug: string; count: number; image: string };
-
-export function getBrands(): BrandSummary[] {
-  const brands = new Map<string, BrandSummary>();
-  for (const p of products) {
-    const existing = brands.get(p.brand);
-    if (existing) {
-      existing.count += 1;
-    } else {
-      brands.set(p.brand, { name: p.brand, slug: slugify(p.brand), count: 1, image: p.images[0] });
-    }
-  }
-  return [...brands.values()].sort((a, b) => a.name.localeCompare(b.name));
+export async function getSeasonalProducts(limit = 8): Promise<Product[]> {
+  const items = await ProductRepository.seasonal(limit);
+  return Promise.all(items.map((p) => mapProduct(p)));
 }
 
-export function getProductsByBrand(brandSlug: string) {
-  return products.filter((p) => slugify(p.brand) === brandSlug);
+export type BrandSummary = { name: string; slug: string; count: number; image: string; description: string };
+
+export async function getBrands(): Promise<BrandSummary[]> {
+  const brands = await BrandRepository.listWithProductCounts();
+  return brands.map((b) => ({
+    name: b.name,
+    slug: b.slug,
+    count: b.productCount,
+    image: b.sampleImageUrl ?? "",
+    description: b.description ?? "",
+  }));
 }
 
-export function getSpecials() {
-  return products.filter((p) => p.compareAtPrice && p.compareAtPrice > p.price);
+export async function getProductsByBrand(brandSlug: string): Promise<Product[]> {
+  const { items } = await ProductRepository.list({ brandSlug, limit: 100 });
+  return Promise.all(items.map((p) => mapProduct(p)));
+}
+
+export async function getSpecials(limit = 100): Promise<Product[]> {
+  const items = await ProductRepository.specials(limit);
+  return Promise.all(items.map((p) => mapProduct(p)));
 }

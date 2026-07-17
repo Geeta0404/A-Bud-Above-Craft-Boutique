@@ -4,13 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { UserPlus } from "lucide-react";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile, signOut } from "firebase/auth";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getFirebaseClientAuth, isFirebaseClientConfigured } from "@/lib/firebase/client";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 import { PhoneOtpForm } from "@/components/auth/PhoneOtpForm";
 
@@ -41,25 +42,38 @@ export function RegisterForm() {
       return;
     }
 
-    if (!isSupabaseConfigured()) {
+    if (!isFirebaseClientConfigured()) {
       toast.error("Account creation is temporarily unavailable. Please try again later.");
       return;
     }
 
     setSubmitting(true);
-    const supabase = createSupabaseBrowserClient();
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { first_name: firstName, last_name: lastName } },
-    });
-    setSubmitting(false);
 
-    if (error) {
-      toast.error(error.message);
+    try {
+      const auth = getFirebaseClientAuth();
+      const credential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(credential.user, { displayName: `${firstName} ${lastName}`.trim() });
+      await sendEmailVerification(credential.user);
+
+      // Provisions the matching Postgres row (see requireUser/upsertFromFirebase),
+      // then fills in the name fields it doesn't get from the token alone.
+      const idToken = await credential.user.getIdToken();
+      const authHeader = { Authorization: `Bearer ${idToken}` };
+      await fetch("/api/users/me", { headers: authHeader });
+      await fetch("/api/users/me", {
+        method: "PUT",
+        headers: { ...authHeader, "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName }),
+      });
+
+      await signOut(auth);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Account creation failed.");
+      setSubmitting(false);
       return;
     }
 
+    setSubmitting(false);
     toast.success("Account created! Check your email to confirm, then sign in.");
     router.push("/login");
   };

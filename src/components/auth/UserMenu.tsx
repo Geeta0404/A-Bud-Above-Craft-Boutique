@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { User, LayoutDashboard, LogOut } from "lucide-react";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
+import type { User as FirebaseUser } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,57 +16,53 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getFirebaseClientAuth } from "@/lib/firebase/client";
+import { useFirebaseUser } from "@/hooks/useFirebaseUser";
 
-function firstNameOf(user: SupabaseUser): string {
-  const meta = user.user_metadata as Record<string, unknown> | undefined;
-  const fromMeta =
-    (meta?.first_name as string | undefined) ||
-    (meta?.full_name as string | undefined)?.split(" ")[0] ||
-    (meta?.name as string | undefined)?.split(" ")[0];
-  if (fromMeta) return fromMeta;
+function firstNameOf(user: FirebaseUser): string {
+  const fromDisplayName = user.displayName?.split(" ")[0];
+  if (fromDisplayName) return fromDisplayName;
   if (user.email) return user.email.split("@")[0];
-  if (user.phone) return user.phone;
+  if (user.phoneNumber) return user.phoneNumber;
   return "there";
 }
 
 export function UserMenu() {
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [loaded, setLoaded] = useState(false);
+  const { user, loaded } = useFirebaseUser();
+  // Keyed by uid so a stale check from a previous account never leaks
+  // through — no synchronous reset needed when `user` goes null.
+  const [adminCheck, setAdminCheck] = useState<{ uid: string; isAdmin: boolean } | null>(null);
   const router = useRouter();
   const hasGreeted = useRef(false);
+  const previousUid = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!isSupabaseConfigured()) {
-      setLoaded(true);
+    if (!user) {
+      if (previousUid.current) hasGreeted.current = false;
+      previousUid.current = null;
       return;
     }
-    const supabase = createSupabaseBrowserClient();
 
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
-      setLoaded(true);
-    });
+    if (previousUid.current !== user.uid && !hasGreeted.current) {
+      hasGreeted.current = true;
+      toast.success(`Logged in successfully! Welcome, ${firstNameOf(user)}.`);
+    }
+    previousUid.current = user.uid;
 
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
+    const uid = user.uid;
+    user.getIdToken().then((idToken) =>
+      fetch("/api/users/me", { headers: { Authorization: `Bearer ${idToken}` } })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((body) => setAdminCheck({ uid, isAdmin: body?.data?.role === "admin" }))
+        .catch(() => setAdminCheck({ uid, isAdmin: false }))
+    );
+  }, [user]);
 
-      if (event === "SIGNED_IN" && session?.user && !hasGreeted.current) {
-        hasGreeted.current = true;
-        toast.success(`Logged in successfully! Welcome, ${firstNameOf(session.user)}.`);
-      }
-
-      if (event === "SIGNED_OUT") {
-        hasGreeted.current = false;
-      }
-    });
-
-    return () => listener.subscription.unsubscribe();
-  }, []);
+  const isAdmin = adminCheck?.uid === user?.uid && (adminCheck?.isAdmin ?? false);
 
   const handleSignOut = async () => {
-    const supabase = createSupabaseBrowserClient();
-    await supabase.auth.signOut();
+    await signOut(getFirebaseClientAuth());
+    await fetch("/api/auth/session", { method: "DELETE" }).catch(() => {});
     router.push("/");
     router.refresh();
   };
@@ -80,7 +77,6 @@ export function UserMenu() {
     );
   }
 
-  const isAdmin = user.app_metadata?.role === "admin";
   const name = firstNameOf(user);
 
   return (

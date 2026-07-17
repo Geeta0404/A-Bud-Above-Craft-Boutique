@@ -4,22 +4,29 @@ import { PromoCarousel } from "@/components/shop/PromoCarousel";
 import { CategoryRail } from "@/components/shop/CategoryRail";
 import { ProductRail } from "@/components/shop/ProductRail";
 import { Button } from "@/components/ui/button";
-import { categories } from "@/lib/data/categories";
-import { products, getBestSellers, getNewArrivals } from "@/lib/data/products";
+import { getCategories } from "@/lib/data/categories";
+import { getAllProducts, getBestSellers, getNewArrivals } from "@/lib/data/products";
 
 export const metadata: Metadata = {
   title: "Shop",
   description: "Premium flower, pre-rolls, vapes, edibles, concentrates, topicals, and beverages from trusted BC brands.",
 };
 
-export default function ShopPage() {
+export default async function ShopPage() {
+  const [bestSellers, newArrivals, products, categories] = await Promise.all([
+    getBestSellers(8),
+    getNewArrivals(8),
+    getAllProducts(),
+    getCategories(),
+  ]);
+
   return (
     <div className="mx-auto max-w-7xl space-y-12 px-4 py-10 sm:px-6 lg:px-8">
       <PromoCarousel />
-      <CategoryRail />
+      <CategoryRail categories={categories} />
 
-      <ProductRail title="Best Sellers" products={getBestSellers(8)} viewAllHref="/shop/best-sellers" />
-      <ProductRail title="New Arrivals" products={getNewArrivals(8)} viewAllHref="/shop/new-arrivals" />
+      <ProductRail title="Best Sellers" products={bestSellers} viewAllHref="/shop/best-sellers" />
+      <ProductRail title="New Arrivals" products={newArrivals} viewAllHref="/shop/new-arrivals" />
 
       {categories.map((category) => (
         <ProductRail

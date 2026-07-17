@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: "Shop by your favourite brand.",
 };
 
-export default function BrandsPage() {
-  const brands = getBrands();
+export default async function BrandsPage() {
+  const brands = await getBrands();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

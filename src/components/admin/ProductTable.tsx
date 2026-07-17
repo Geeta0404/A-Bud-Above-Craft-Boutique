@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { CAD } from "@/lib/constants";
-import type { AdminProduct } from "@/lib/types";
+import type { Product } from "@/types/catalog";
 
-export function ProductTable({ products }: { products: AdminProduct[] }) {
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+export function ProductTable({ products }: { products: Product[] }) {
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const router = useRouter();
 
-  const handleDelete = async (id: string, name: string) => {
+  const handleDelete = async (id: number, name: string) => {
     if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
 
     setDeletingId(id);
@@ -57,20 +57,20 @@ export function ProductTable({ products }: { products: AdminProduct[] }) {
             <tr key={product.id} className="border-b border-border last:border-0">
               <td className="px-4 py-3">
                 <div className="flex items-center gap-3">
-                  {product.images[0] && (
+                  {product.images?.[0] && (
                     <div className="relative h-10 w-10 overflow-hidden rounded-md bg-muted">
-                      <Image src={product.images[0]} alt={product.name} fill className="object-cover" sizes="40px" />
+                      <Image src={product.images[0].imageUrl} alt={product.name} fill className="object-cover" sizes="40px" />
                     </div>
                   )}
                   <span className="font-medium">{product.name}</span>
                 </div>
               </td>
-              <td className="px-4 py-3 capitalize text-muted-foreground">{product.category}</td>
+              <td className="px-4 py-3 capitalize text-muted-foreground">{product.categoryName}</td>
               <td className="px-4 py-3">{CAD(product.price)}</td>
               <td className="px-4 py-3">{product.stockQuantity}</td>
               <td className="px-4 py-3">
-                <Badge variant={product.inStock ? "default" : "secondary"}>
-                  {product.inStock ? "In Stock" : "Out of Stock"}
+                <Badge variant={product.stockQuantity > 0 ? "default" : "secondary"}>
+                  {product.stockQuantity > 0 ? "In Stock" : "Out of Stock"}
                 </Badge>
               </td>
               <td className="px-4 py-3">

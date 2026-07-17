@@ -16,8 +16,8 @@ const NEW_ARRIVALS_COLLECTION = {
   image: IMG.flowerBud3,
 };
 
-export default function NewArrivalsPage() {
-  const newArrivals = getNewArrivals(Number.MAX_SAFE_INTEGER);
+export default async function NewArrivalsPage() {
+  const newArrivals = await getNewArrivals(Number.MAX_SAFE_INTEGER);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

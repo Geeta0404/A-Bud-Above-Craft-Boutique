@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { listProducts } from "@/lib/databricks/products";
+import { ProductRepository } from "@/repositories/ProductRepository";
 import { ProductTable } from "@/components/admin/ProductTable";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminProductsPage() {
-  const products = await listProducts();
+  const { items: products } = await ProductRepository.list({ includeInactive: true, limit: 100 });
 
   return (
     <div className="space-y-6">

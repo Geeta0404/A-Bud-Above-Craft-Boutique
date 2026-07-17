@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, Heart, ShoppingBag, Search, ChevronDown, ArrowRight } from "lucide-react";
 import { TOP_NAV_LINKS, SECONDARY_NAV_LINKS, SITE_NAME } from "@/lib/constants";
-import { categories } from "@/lib/data/categories";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/context/CartContext";
@@ -12,6 +11,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserMenu } from "@/components/auth/UserMenu";
+import type { Category } from "@/lib/types";
 
 // The secondary shop bar only appears on shop-related sections of the site.
 const SHOP_ROUTE_PREFIXES = ["/shop", "/brands", "/specials", "/categories"];
@@ -68,7 +68,7 @@ function AboutMenu({ label, href, children }: (typeof TOP_NAV_LINKS)[number]) {
   );
 }
 
-function ShopMegaMenu() {
+function ShopMegaMenu({ categories }: { categories: Category[] }) {
   const half = Math.ceil(categories.length / 2);
   const columns = [categories.slice(0, half), categories.slice(half)];
 
@@ -163,7 +163,7 @@ function AccountActions({ iconSize = "h-11 w-11" }: { iconSize?: string }) {
   );
 }
 
-export function Header() {
+export function Header({ categories }: { categories: Category[] }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const showSecondaryBar = isShopRoute(pathname);
@@ -283,7 +283,7 @@ export function Header() {
             <nav className="flex items-center gap-6">
               {SECONDARY_NAV_LINKS.map((link) =>
                 link.label === "Shop" ? (
-                  <ShopMegaMenu key={link.href} />
+                  <ShopMegaMenu key={link.href} categories={categories} />
                 ) : (
                   <Link
                     key={link.href}

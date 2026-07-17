@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { getProductBySlug } from "@/lib/data/products";
+import { useProductLookup } from "@/hooks/useProductLookup";
 import { CAD } from "@/lib/constants";
 import { Textarea } from "@/components/ui/textarea";
 import type { CartItem } from "@/lib/types";
@@ -80,9 +80,10 @@ export function CheckoutItemsSummary({
   onNotesChange: (slug: string, value: string) => void;
 }) {
   const { items } = useCart();
+  const lookup = useProductLookup(items.map((i) => i.slug));
 
   const groups = items.reduce<{ brand: string; items: CartItem[] }[]>((acc, item) => {
-    const brand = getProductBySlug(item.slug)?.brand ?? "Other";
+    const brand = lookup[item.slug]?.brand || "Other";
     const group = acc.find((g) => g.brand === brand);
     if (group) group.items.push(item);
     else acc.push({ brand, items: [item] });

@@ -1,31 +1,33 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Button } from "@/components/ui/button";
-import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getFirebaseClientAuth, isFirebaseClientConfigured } from "@/lib/firebase/client";
 import { toast } from "sonner";
 
 export function GoogleSignInButton({ redirectTo = "/" }: { redirectTo?: string }) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleClick = async () => {
-    if (!isSupabaseConfigured()) {
+    if (!isFirebaseClientConfigured()) {
       toast.error("Sign-in is temporarily unavailable. Please try again later.");
       return;
     }
     setLoading(true);
-    const supabase = createSupabaseBrowserClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
-        // Always show Google's account chooser instead of silently reusing the last session.
-        queryParams: { prompt: "select_account" },
-      },
-    });
 
-    if (error) {
-      toast.error(error.message);
+    try {
+      const provider = new GoogleAuthProvider();
+      // Always show Google's account chooser instead of silently reusing the last session.
+      provider.setCustomParameters({ prompt: "select_account" });
+      await signInWithPopup(getFirebaseClientAuth(), provider);
+      router.push(redirectTo);
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Google sign-in failed.");
+    } finally {
       setLoading(false);
     }
   };
@@ -57,7 +59,7 @@ export function GoogleSignInButton({ redirectTo = "/" }: { redirectTo?: string }
           d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.43-3.43C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.3 6.61l3.99 3.09C6.23 6.86 8.88 4.75 12 4.75z"
         />
       </svg>
-      {loading ? "Redirecting…" : "Continue with Google"}
+      {loading ? "Signing in…" : "Continue with Google"}
     </Button>
   );
 }

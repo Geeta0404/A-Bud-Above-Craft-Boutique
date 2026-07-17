@@ -4,8 +4,8 @@ import { getBestSellers } from "@/lib/data/products";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { Reveal } from "@/components/shared/Reveal";
 
-export function BestSellers() {
-  const products = getBestSellers(4);
+export async function BestSellers() {
+  const products = await getBestSellers(4);
   return (
     <section className="bg-muted/60 py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

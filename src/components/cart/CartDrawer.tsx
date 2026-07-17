@@ -6,11 +6,12 @@ import { X, ChevronLeft, Trash2, ShoppingBag } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
-import { getProductBySlug } from "@/lib/data/products";
+import { useProductLookup } from "@/hooks/useProductLookup";
 import { CAD, SITE_NAME } from "@/lib/constants";
 
 export function CartDrawer() {
   const { items, isCartOpen, closeCart, setCartOpen, subtotal, removeItem, updateQuantity } = useCart();
+  const lookup = useProductLookup(items.map((i) => i.slug));
 
   return (
     <Sheet open={isCartOpen} onOpenChange={setCartOpen}>
@@ -54,7 +55,7 @@ export function CartDrawer() {
           <>
             <div className="flex-1 overflow-y-auto px-5">
               {items.map((item) => {
-                const product = getProductBySlug(item.slug);
+                const product = lookup[item.slug];
                 return (
                   <div key={item.slug} className="flex gap-3 border-b border-border py-4 last:border-0">
                     <Link

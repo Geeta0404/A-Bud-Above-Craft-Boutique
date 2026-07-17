@@ -14,6 +14,7 @@ import { PaletteSwitcher } from "@/components/shared/PaletteSwitcher";
 import { AgeGate } from "@/components/shared/AgeGate";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/constants";
 import { palettes, defaultPaletteId } from "@/lib/palettes";
+import { getCategories } from "@/lib/data/categories";
 
 // Applies the saved palette's CSS variables and dark/light class before first paint,
 // so a light theme doesn't flash the default dark background on load (see PaletteContext).
@@ -63,7 +64,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const categories = await getCategories();
+
   return (
     <html
       lang="en-CA"
@@ -87,7 +90,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <PaletteProvider>
           <CartProvider>
             <WishlistProvider>
-              <Header />
+              <Header categories={categories} />
               <main className="flex-1">{children}</main>
               <Footer />
               <CartDrawer />

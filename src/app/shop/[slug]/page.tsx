@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getRelatedProducts, products } from "@/lib/data/products";
+import { getAllProducts, getProductBySlug, getRelatedProducts } from "@/lib/data/products";
 import { Gallery } from "@/components/product/Gallery";
 import { AddToCartForm } from "@/components/product/AddToCartForm";
 import { Reviews } from "@/components/product/Reviews";
@@ -10,12 +10,13 @@ import { TrackView } from "@/components/product/TrackView";
 import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { CAD, SITE_URL } from "@/lib/constants";
-import { categories } from "@/lib/data/categories";
+import { getCategories } from "@/lib/data/categories";
 import { formatCbd, formatThc, hasPotencyInfo } from "@/lib/cannabis";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const products = await getAllProducts();
   return products.map((p) => ({ slug: p.slug }));
 }
 
@@ -25,7 +26,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return {};
   return {
     title: product.name,
@@ -36,10 +37,14 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const related = getRelatedProducts(product);
+  const [related, allProducts, categories] = await Promise.all([
+    getRelatedProducts(product),
+    getAllProducts(),
+    getCategories(),
+  ]);
   const category = categories.find((c) => c.slug === product.category);
 
   return (
@@ -133,7 +138,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <RelatedProducts products={related} />
-      <RecentlyViewed excludeSlug={product.slug} />
+      <RecentlyViewed products={allProducts} excludeSlug={product.slug} />
     </div>
   );
 }

@@ -16,8 +16,8 @@ const BEST_SELLERS_COLLECTION = {
   image: IMG.flowerBud1,
 };
 
-export default function BestSellersPage() {
-  const bestSellers = getBestSellers(Number.MAX_SAFE_INTEGER);
+export default async function BestSellersPage() {
+  const bestSellers = await getBestSellers(Number.MAX_SAFE_INTEGER);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

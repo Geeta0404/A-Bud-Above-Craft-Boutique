@@ -1,13 +1,10 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin/auth";
 import { SignOutButton } from "@/components/admin/SignOutButton";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const admin = await requireAdmin();
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -23,7 +20,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             </nav>
           </div>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>{user?.email || user?.phone}</span>
+            <span>{admin?.email}</span>
             <SignOutButton />
           </div>
         </div>

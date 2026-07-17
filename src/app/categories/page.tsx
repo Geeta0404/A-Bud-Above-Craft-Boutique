@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { categories } from "@/lib/data/categories";
+import { getCategories } from "@/lib/data/categories";
 import { PageBreadcrumbs } from "@/components/shared/PageBreadcrumbs";
 
 export const metadata: Metadata = {
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   description: "Browse our full range by category — flower, pre-rolls, vaporizers, edibles, concentrates, topicals, beverages, and accessories.",
 };
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const categories = await getCategories();
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <PageBreadcrumbs items={[{ label: "Categories" }]} />

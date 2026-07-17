@@ -92,15 +92,3 @@ export type CartItem = {
   image: string;
   quantity: number;
 };
-
-// Admin-managed product record, persisted in Databricks.
-export type AdminProduct = Product & {
-  id: string;
-  stockQuantity: number;
-  updatedAt: string;
-};
-
-export type AdminProductInput = Omit<AdminProduct, "id" | "createdAt" | "updatedAt" | "reviews" | "rating" | "reviewCount"> & {
-  rating?: number;
-  reviewCount?: number;
-};

@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Send, ArrowLeft } from "lucide-react";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { getFirebaseClientAuth, isFirebaseClientConfigured } from "@/lib/firebase/client";
 
 const fieldClass = cn(
   "h-11 w-full rounded-none border-0 border-b-2 border-input bg-transparent px-0 text-base shadow-none",
@@ -21,14 +23,33 @@ export function ForgotPasswordForm() {
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isFirebaseClientConfigured()) {
+      toast.error("Password reset is temporarily unavailable. Please try again later.");
+      return;
+    }
+
     setSubmitting(true);
-    setTimeout(() => {
-      toast.success("Reset link sent! Check your inbox.");
-      setSubmitting(false);
-      setSent(true);
-    }, 600);
+    const email = String(new FormData(e.currentTarget).get("email"));
+
+    try {
+      await sendPasswordResetEmail(getFirebaseClientAuth(), email);
+    } catch (error) {
+      // Firebase's auth/user-not-found is intentionally not surfaced here —
+      // showing the same success state either way avoids leaking which
+      // emails have accounts.
+      if (error instanceof Error && !error.message.includes("auth/user-not-found")) {
+        toast.error(error.message);
+        setSubmitting(false);
+        return;
+      }
+    }
+
+    toast.success("Reset link sent! Check your inbox.");
+    setSubmitting(false);
+    setSent(true);
   };
 
   return (

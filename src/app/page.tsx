@@ -9,6 +9,7 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { Newsletter } from "@/components/home/Newsletter";
 import { InstagramGallery } from "@/components/home/InstagramGallery";
 import { CallToAction } from "@/components/home/CallToAction";
+import { getCategories } from "@/lib/data/categories";
 
 export const metadata: Metadata = {
   title: SITE_TAGLINE,
@@ -16,12 +17,14 @@ export const metadata: Metadata = {
     "Shop premium flower, pre-rolls, vaporizers, edibles, concentrates, and more from trusted BC cannabis brands.",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const categories = await getCategories();
+
   return (
     <>
       <Hero />
       <TrustBar />
-      <FeaturedCollections />
+      <FeaturedCollections categories={categories} />
       <BestSellers />
       <ArtisanSpotlight />
       <Testimonials />

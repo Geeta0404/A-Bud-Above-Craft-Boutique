@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/auth";
-import { getProductById, updateProduct, deleteProduct } from "@/lib/databricks/products";
-import type { AdminProductInput } from "@/lib/types";
+import { ProductRepository } from "@/repositories/ProductRepository";
+import type { ProductInput } from "@/types/catalog";
 
 export async function GET(
   _request: Request,
@@ -11,7 +11,7 @@ export async function GET(
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const product = await getProductById(id);
+  const product = await ProductRepository.findById(Number(id));
   if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   return NextResponse.json({ product });
@@ -25,10 +25,11 @@ export async function PUT(
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const input = (await request.json()) as AdminProductInput;
-  await updateProduct(id, input);
+  const input = (await request.json()) as ProductInput;
+  const product = await ProductRepository.update(Number(id), input);
+  if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ product });
 }
 
 export async function DELETE(
@@ -39,7 +40,8 @@ export async function DELETE(
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  await deleteProduct(id);
+  const deleted = await ProductRepository.delete(Number(id));
+  if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   return NextResponse.json({ success: true });
 }

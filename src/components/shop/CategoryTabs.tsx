@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { categories } from "@/lib/data/categories";
 import { cn } from "@/lib/utils";
+import type { Category } from "@/lib/types";
 
-export function CategoryTabs({ activeSlug }: { activeSlug: string }) {
+export function CategoryTabs({ activeSlug, categories }: { activeSlug: string; categories: Category[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);

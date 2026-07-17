@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { signInWithPhoneNumber, type ConfirmationResult } from "firebase/auth";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { createSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getFirebaseClientAuth, isFirebaseClientConfigured } from "@/lib/firebase/client";
+import { getRecaptchaVerifier } from "@/lib/firebase/recaptcha";
+
+const RECAPTCHA_CONTAINER_ID = "phone-otp-recaptcha";
 
 const fieldClass = cn(
   "h-11 w-full rounded-none border-0 border-b-2 border-input bg-transparent px-0 text-base shadow-none",
@@ -23,56 +27,56 @@ export function PhoneOtpForm({ redirectTo = "/" }: { redirectTo?: string }) {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+  const confirmationRef = useRef<ConfirmationResult | null>(null);
 
   const sendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Supabase/Twilio require strict E.164 (e.g. +15551234567) — strip spaces, dashes, parens.
+    // Firebase phone auth requires strict E.164 (e.g. +15551234567) — strip spaces, dashes, parens.
     const normalized = phone.replace(/[^\d+]/g, "");
     if (!/^\+[1-9]\d{6,14}$/.test(normalized)) {
       toast.error("Enter a valid phone number with country code, e.g. +15551234567");
       return;
     }
 
-    if (!isSupabaseConfigured()) {
+    if (!isFirebaseClientConfigured()) {
       toast.error("Sign-in is temporarily unavailable. Please try again later.");
       return;
     }
 
     setSubmitting(true);
-    const supabase = createSupabaseBrowserClient();
-    const { error } = await supabase.auth.signInWithOtp({ phone: normalized });
-    setSubmitting(false);
-
-    if (error) {
-      toast.error(error.message);
-      return;
+    try {
+      const verifier = getRecaptchaVerifier(RECAPTCHA_CONTAINER_ID);
+      confirmationRef.current = await signInWithPhoneNumber(getFirebaseClientAuth(), normalized, verifier);
+      setPhone(normalized);
+      toast.success("Verification code sent.");
+      setStep("otp");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not send verification code.");
+    } finally {
+      setSubmitting(false);
     }
-
-    setPhone(normalized);
-    toast.success("Verification code sent.");
-    setStep("otp");
   };
 
   const verifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
-    const supabase = createSupabaseBrowserClient();
-    const { error } = await supabase.auth.verifyOtp({
-      phone,
-      token: otp,
-      type: "sms",
-    });
-    setSubmitting(false);
 
-    if (error) {
-      toast.error(error.message);
+    if (!confirmationRef.current) {
+      toast.error("Send a code first.");
       return;
     }
 
-    toast.success("Welcome back!");
-    router.push(redirectTo);
-    router.refresh();
+    setSubmitting(true);
+    try {
+      await confirmationRef.current.confirm(otp);
+      toast.success("Welcome back!");
+      router.push(redirectTo);
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Invalid code.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (step === "otp") {
@@ -106,6 +110,7 @@ export function PhoneOtpForm({ redirectTo = "/" }: { redirectTo?: string }) {
 
   return (
     <form onSubmit={sendOtp} className="space-y-5">
+      <div id={RECAPTCHA_CONTAINER_ID} />
       <div className="space-y-1.5">
         <Label htmlFor="phone" className={labelClass}>Phone number</Label>
         <Input

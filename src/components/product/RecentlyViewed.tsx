@@ -1,10 +1,10 @@
 "use client";
 
-import { products } from "@/lib/data/products";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { ProductCard } from "@/components/shop/ProductCard";
+import type { Product } from "@/lib/types";
 
-export function RecentlyViewed({ excludeSlug }: { excludeSlug?: string }) {
+export function RecentlyViewed({ products, excludeSlug }: { products: Product[]; excludeSlug?: string }) {
   const slugs = useRecentlyViewed().filter((s) => s !== excludeSlug);
   const viewed = slugs
     .map((slug) => products.find((p) => p.slug === slug))
